@@ -1,0 +1,6 @@
+export(irtPlot,
+	   polyPlot,
+	   difPlot)
+
+import(ggplot2,
+	   ltm)
