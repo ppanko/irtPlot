@@ -49,7 +49,11 @@ logLik <- function(d, cf, t) {
 }
 
 ## plots!
+<<<<<<< HEAD
 plotIrt <- function(itms, ttl, x1, y1, grp, ylbs, lgd = "Items") {
+=======
+plotThings1 <- function(itms, ttl, x1, y1, grp, ylbs, lgd = "Items") {
+>>>>>>> origin/master
 
     ggplot2::ggplot(itms, aes(x = x1, y = y1)) +
         geom_line(aes(color = grp), size = 1) +
