@@ -51,14 +51,25 @@ irtPlot <- function(dat,
     } else stop("Please provide a valid model, comrade")
 
                                         #type icc
-    if(type == "icc") {
+    if(type == "icc"|"tcc") {
 
-        prb <- as.vector(apply(dt, 1, calcP))
+        prb <- apply(dt, 1, calcP)
+
+        if(type == "tcc") {
+
+            ylb <- "Expected Score"
+            itms <- data.frame(prb = rowSums(prb1), theta = theta)
+            itmplot <- plotSin(itms, ttl = title2, x1 = itms$theta, y1 = itms$prb, ylbs = ylb)
+
+        }
+
+        if(type == "icc") {
+        prv <- as.vector()
         itms <- data.frame(prb = prb, theta = rep(theta, ind),item = item)
 
         itmplot <- plotIrt(itms, ttl = title2, x1 = itms$theta, y1 = itms$prb, grp = itms$item, ylbs = ylb)
 
-
+        }
                                         #type iif
     } else if(type == "iif") {
 
