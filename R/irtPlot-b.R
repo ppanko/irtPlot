@@ -51,7 +51,7 @@ irtPlot <- function(dat,
     } else stop("Please provide a valid model, comrade")
 
                                         #type icc
-    if(type == "icc"|"tcc") {
+    if(type == "icc"|type == "tcc") {
 
         prb <- apply(dt, 1, calcP)
 
