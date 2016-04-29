@@ -7,8 +7,7 @@ Description: User-friendly functions for observing
 			 data in the context of Item Response Theory.
 			 Contains utilities for binomial, polytomous 
 			 and differential item functioning plotting. 
-Depends:
-    R (>= 3.2.4) ggplot2, ltm 
+Depends: ggplot2, ltm 
 License: GPL-3 | file LICENSE 
 Encoding: UTF-8
 LazyData: true, so true... 
