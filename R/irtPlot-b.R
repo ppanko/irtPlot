@@ -55,23 +55,17 @@ irtPlot <- function(dat,
 
         prb <- as.vector(apply(dt, 1, calcP))
         itms <- data.frame(prb = prb, theta = rep(theta, ind),item = item)
-<<<<<<< HEAD
+
         itmplot <- plotIrt(itms, ttl = title2, x1 = itms$theta, y1 = itms$prb, grp = itms$item, ylbs = ylb)
-=======
-        itmplot <- plotThings1(itms, ttl = title2, x1 = itms$theta, y1 = itms$prb, grp = itms$item, ylbs = ylb)
->>>>>>> origin/master
+
 
                                         #type iif
     } else if(type == "iif") {
 
         inf <- as.vector(apply(dt, 1, calcI))
         itms <- data.frame(inf = inf, theta = rep(theta, ind),item = item)
-<<<<<<< HEAD
-        itmplot <- plotIrt(itms, ttl = title2, x1 = itms$theta, y1 = itms$inf, grp = itms$item, ylbs = ylb)
-=======
-        itmplot <- plotThings1(itms, ttl = title2, x1 = itms$theta, y1 = itms$inf, grp = itms$item, ylbs = ylb)
->>>>>>> origin/master
 
+        itmplot <- plotIrt(itms, ttl = title2, x1 = itms$theta, y1 = itms$inf, gr
                                         #type logl/likl
     } else if(type == "likl"|type == "logl") {
 
@@ -96,11 +90,7 @@ irtPlot <- function(dat,
             ylb <- "Log-likelihood \n"
         }
 
-<<<<<<< HEAD
         itmplot <- plotIrt(itms, title2, x1 = itms$theta, y1 = y1, grp = itms$Obs, ylbs = ylb, lgd = "Obs.")
-=======
-        itmplot <- plotThings1(itms, title2, x1 = itms$theta, y1 = y1, grp = itms$Obs, ylbs = ylb, lgd = "Obs.")
->>>>>>> origin/master
 
     } else stop("Please provide a valid plot type, comrade")
 
