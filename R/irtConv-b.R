@@ -1,7 +1,7 @@
 namNami <- function(t, i) {
     if(t == "icc") title <- paste0("Item Characteristic Curves \n for the ", i, " Items")
     else if(t == "iif") title <- paste0("Item Information Functions \n for the ", i, " Items")
-    else if(t == "tcc") title <- paste0("Test Characteristic Curve \n for the ", i, "Items")
+    else if(t == "tcc") title <- paste0("Test Characteristic Curve \n for the ", i, " Items")
 }
 
 namNaml <- function(t, i) {
