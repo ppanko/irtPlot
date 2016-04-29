@@ -57,14 +57,13 @@ irtPlot <- function(dat,
         if(type == "tcc") {
 
             ylb <- "Expected Score"
-            itms <- data.frame(prb = rowSums(prb1), theta = theta)
+            itms <- data.frame(prb = rowSums(prb), theta = theta)
             itmplot <- plotSin(itms, ttl = title2, x1 = itms$theta, y1 = itms$prb, ylbs = ylb)
 
         } else if(type == "icc") {
 
             prv <- as.vector(prb)
-            browser()
-            itms <- data.frame(prb = prb, theta = rep(theta, ind),item = item)
+            itms <- data.frame(prb = prv, theta = rep(theta, ind),item = item)
             itmplot <- plotIrt(itms, ttl = title2, x1 = itms$theta, y1 = itms$prb, grp = itms$item, ylbs = ylb)
 
         }
