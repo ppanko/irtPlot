@@ -17,7 +17,7 @@ pFun <- function(x, l) {
     return(obj)
 }
 
-plotPoly <- function(itms, ttl, x1 = itms$tht, y1 = itms$prb, group = factor(itms$level), ylbs, lgd = "Response") {
+plotThings <- function(itms, ttl, x1 = itms$tht, y1 = itms$prb, group = factor(itms$level), ylbs, lgd = "Response") {
 
     ggplot2::ggplot(itms, aes(x = x1, y = y1)) +
         geom_line(aes(color = group), size = 1) +

@@ -33,7 +33,7 @@ polyPlot <- function(dat,
             }
 
             plPlot <- list()
-            for(i in 1:length(pdt)) plPlot[[i]] <- plotPoly(pdt[[i]], ttl = title2[i], ylbs = ylb)
+            for(i in 1:length(pdt)) plPlot[[i]] <- plotThings(pdt[[i]], ttl = title2[i], ylbs = ylb)
 
         } else if(type == "iif") {
 
@@ -41,7 +41,7 @@ polyPlot <- function(dat,
             pdt <- mapply(cbmFun, x = lst, z = ld, SIMPLIFY = FALSE)
 
             plPlot <- list()
-            for(i in 1:length(pdt)) plPlot[[i]] <- plotPoly(pdt[[i]], ttl = title2[i], ylbs = ylb)
+            for(i in 1:length(pdt)) plPlot[[i]] <- plotThings(pdt[[i]], ttl = title2[i], ylbs = ylb)
 
         } else stop("Please provide a valid plot type, comrade")
 
@@ -68,7 +68,7 @@ polyPlot <- function(dat,
             rdt1 <- mapply(mbind, x = rdt, l = lds, SIMPLIFY = FALSE)
 
             plPlot <- list()
-            for(i in 1:length(pdt)) plPlot[[i]] <- plotPoly(rdt1[[i]], ttl = title2[i], ylbs = ylb)
+            for(i in 1:length(pdt)) plPlot[[i]] <- plotThings(rdt1[[i]], ttl = title2[i], ylbs = ylb)
 
         } else if (type == "icc") {
 
@@ -80,7 +80,7 @@ polyPlot <- function(dat,
             odt1 <- mapply(mbind, x = odt, l = lds, SIMPLIFY = FALSE)
 
             plPlot <- list()
-            for(i in 1:length(pdt)) plPlot[[i]] <- plotPoly(odt1[[i]], ttl = title2[i], ylbs = ylb)
+            for(i in 1:length(pdt)) plPlot[[i]] <- plotThings(odt1[[i]], ttl = title2[i], ylbs = ylb)
 
         } else stop("Please provide a valid plot type, comrade")
     }
