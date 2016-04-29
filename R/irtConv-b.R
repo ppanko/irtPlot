@@ -64,7 +64,7 @@ plotIrt <- function(itms, ttl, x1, y1, grp, ylbs, lgd = "Items") {
 
 plotSin <- function(itms, ttl, x1, y1, grp, ylbs) {
 
-    ggplot(itms, aes(x = x1, y = y1)) +
+    ggplot2::ggplot(itms, aes(x = x1, y = y1)) +
         geom_line(color = "red", size = 1) +
         ggtitle(paste(ttl, '\n')) +
         xlab(expression(atop(,Ability(theta)))) +

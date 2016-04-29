@@ -61,13 +61,11 @@ irtPlot <- function(dat,
             itms <- data.frame(prb = rowSums(prb1), theta = theta)
             itmplot <- plotSin(itms, ttl = title2, x1 = itms$theta, y1 = itms$prb, ylbs = ylb)
 
-        }
+        } else if(type == "icc") {
 
-        if(type == "icc") {
-        prv <- as.vector(prb)
-        itms <- data.frame(prb = prb, theta = rep(theta, ind),item = item)
-
-        itmplot <- plotIrt(itms, ttl = title2, x1 = itms$theta, y1 = itms$prb, grp = itms$item, ylbs = ylb)
+            prv <- as.vector(prb)
+            itms <- data.frame(prb = prb, theta = rep(theta, ind), item = item)
+            itmplot <- plotIrt(itms, ttl = title2, x1 = itms$theta, y1 = itms$prb, grp = itms$item, ylbs = ylb)
 
         }
                                         #type iif
