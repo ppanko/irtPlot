@@ -1,4 +1,3 @@
-
 irtPlot <- function(dat,
                     theta,
                     title = NULL,
@@ -15,7 +14,7 @@ irtPlot <- function(dat,
 
     ind <- ncol(dat)
     ylb <- expression(atop(P(theta),))
-    item = factor(rep(itmNam, each = length(theta))) #,
+    item = factor(rep(itmNam, each = length(theta)))
     levels(item) <- itmNam
 
     if(length(title) < 1) title2 <- namNami(t = type, i = ind)
@@ -64,44 +63,43 @@ irtPlot <- function(dat,
         } else if(type == "icc") {
 
             prv <- as.vector(prb)
-            itms <- data.frame(prb = prb, theta = rep(theta, ind), item = item)
+            browser()
+            itms <- data.frame(prb = prb, theta = rep(theta, ind),item = item)
             itmplot <- plotIrt(itms, ttl = title2, x1 = itms$theta, y1 = itms$prb, grp = itms$item, ylbs = ylb)
 
         }
                                         #type iif
-    } else if(type == "iif") {
+    } if(type == "iif") {
 
-        inf <- as.vector(apply(dt, 1, calcI))
-        itms <- data.frame(inf = inf, theta = rep(theta, ind),item = item)
-
-        itmplot <- plotIrt(itms, ttl = title2, x1 = itms$theta, y1 = itms$inf, grp = itms$item, ylbs = ylb)
+          inf <- as.vector(apply(dt, 1, calcI))
+          itms <- data.frame(inf = inf, theta = rep(theta, ind),item = item)
+          itmplot <- plotIrt(itms, ttl = title2, x1 = itms$theta, y1 = itms$inf, grp = itms$item, ylbs = ylb)
                                         #type logl/likl
-    } else if(type == "likl"|type == "logl") {
+      } else if(type == "likl"|type == "logl") {
 
-        if(length(subS) > 0) dat <- subS
+          if(length(subS) > 0) dat <- subS
+          if(length(title2) < 1) title2 <- namNaml(t = type, i = nrow(dat))
 
-        if(length(title2) < 1) title2 <- namNaml(t = type, i = nrow(dat))
+          vl <- apply(dat, 1, logLik, cf = dt, t = theta)
+          itms <- data.frame(likl = c(vl),
+                             logl = log(c(vl)),
+                             Obs = factor(rep(1:nrow(dat), each = length(theta))),
+                             theta = theta)
 
-        vl <- apply(dat, 1, logLik, cf = dt, t = theta)
-        itms <- data.frame(likl = c(vl),
-                           logl = log(c(vl)),
-                           Obs = factor(rep(1:nrow(dat), each = length(theta))),
-                           theta = theta)
+          if(type == "likl") {
 
-        if(type == "likl") {
+              y1 <- itms$likl
+              ylb <- "Likelihood \n"
 
-            y1 <- itms$likl
-            ylb <- "Likelihood \n"
+          } else {
 
-        } else {
+              y1 <- itms$logl
+              ylb <- "Log-likelihood \n"
+          }
 
-            y1 <- itms$logl
-            ylb <- "Log-likelihood \n"
-        }
+          itmplot <- plotIrt(itms, title2, x1 = itms$theta, y1 = y1, grp = itms$Obs, ylbs = ylb, lgd = "Obs.")
 
-        itmplot <- plotIrt(itms, title2, x1 = itms$theta, y1 = y1, grp = itms$Obs, ylbs = ylb, lgd = "Obs.")
-
-    } else stop("Please provide a valid plot type, comrade")
+      } else stop("Please provide a valid plot type, comrade")
 
     if (save == TRUE) ggplot2::ggsave(itmplot, file = paste0(ddir,"/",filename), dpi = dpi, height = height, width = width)
 
