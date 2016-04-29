@@ -65,7 +65,7 @@ irtPlot <- function(dat,
         inf <- as.vector(apply(dt, 1, calcI))
         itms <- data.frame(inf = inf, theta = rep(theta, ind),item = item)
 
-        itmplot <- plotIrt(itms, ttl = title2, x1 = itms$theta, y1 = itms$inf, gr
+        itmplot <- plotIrt(itms, ttl = title2, x1 = itms$theta, y1 = itms$inf, grp = itms$item, ylbs = ylb)
                                         #type logl/likl
     } else if(type == "likl"|type == "logl") {
 
