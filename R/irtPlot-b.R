@@ -68,7 +68,7 @@ irtPlot <- function(dat,
 
         }
                                         #type iif
-    } else if(type == "iif"|"tif") {
+    } else if(type == "iif"|type == "tif") {
 
         inf <- apply(dt, 1, calcI)
         ylb <- expression(atop(Info(theta),))
