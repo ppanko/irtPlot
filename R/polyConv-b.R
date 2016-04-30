@@ -1,6 +1,7 @@
 namNamp <- function(x, t) {
     if(t == "crp") title <- paste0("Cumulative Response Curves \n for the ", x, " Item")
     else if(t == "icc") title <- paste0("Response Probabilities \n for the ", x, " Item")
+    else if(t == "icf") title <- paste0("Item Characteristic Function \n for the ", x, " Item")
 }
 
 pFun <- function(x, l) {

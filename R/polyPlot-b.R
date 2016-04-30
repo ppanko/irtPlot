@@ -35,13 +35,14 @@ polyPlot <- function(dat,
             plPlot <- list()
             for(i in 1:length(pdt)) plPlot[[i]] <- plotPoly(pdt[[i]], ttl = title2[i], ylbs = ylb)
 
-        } else if(type == "icc"|type == "tcc") {
+        } else if(type == "icc"|type == "icf") {
 
             lst <- lapply(prb, respFun)
             pdt <- mapply(cbmFun, x = lst, z = ld, SIMPLIFY = FALSE)
 
-            if(type == "tcc") {
+            if(type == "icf") {
 
+                ylb <- "Expected Score"
                 spd <- lapply(pdt, function(x) do.call("cbind", split(x$prb, x$level)))
                 inx <- lapply(ld, function(x) 1:length(x))
 
