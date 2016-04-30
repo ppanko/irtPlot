@@ -56,7 +56,7 @@ irtPlot <- function(dat,
 
         if(type == "tcc") {
 
-            ylb <- "Expected Score"
+            ylb <- "Expected Score \n"
             itms <- data.frame(prb = rowSums(prb), theta = theta)
             itmplot <- plotSin(itms, ttl = title2, x1 = itms$theta, y1 = itms$prb, ylbs = ylb)
 
@@ -68,11 +68,23 @@ irtPlot <- function(dat,
 
         }
                                         #type iif
-    } else if(type == "iif") {
+    } else if(type == "iif"|"tif") {
 
-        inf <- as.vector(apply(dt, 1, calcI))
-        itms <- data.frame(inf = inf, theta = rep(theta, ind),item = item)
-        itmplot <- plotIrt(itms, ttl = title2, x1 = itms$theta, y1 = itms$inf, grp = itms$item, ylbs = ylb)
+        inf <- apply(dt, 1, calcI)
+        ylb <- expression(atop(Info(theta),))
+
+        if(type == "tif") {
+
+            itms <- data.frame(inf = rowSums(inf), theta = theta)
+            itmplot <- plotSin(itms, ttl = title2, x1 = itms$theta, y1 = itms$prb, ylbs = ylb)
+
+        } else if(type == "iif") {
+
+            inv <- as.vector(inf)
+            itms <- data.frame(inf = inv, theta = rep(theta, ind),item = item)
+            itmplot <- plotIrt(itms, ttl = title2, x1 = itms$theta, y1 = itms$inf, grp = itms$item, ylbs = ylb)
+
+        }
                                         #type logl/likl
     } else if(type == "likl"|type == "logl") {
 
