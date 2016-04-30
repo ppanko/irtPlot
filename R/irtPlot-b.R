@@ -1,5 +1,33 @@
+#' Plot binary Item Response Theory models.
+#'
+#' \code{irtPlot} returns a plot within a new device and saves to chosen directory.
+#'
+#' This function is capable of generating several models and plot types.
+#' Namely, the models are \code("1PL"),\code("2PL"), and \code("3PL") and the possible types are
+#' \code("icc"), \code("tcc"), \code("iif"), \code("tif"), \code("likl"), and \code("logl")
+#'
+#' @param dat A data frame containing at least one item as a column.
+#' @param theta The ability parameter across which to plot response parameterization.
+#' @param model The desired model to fit to the data.
+#' @param type The plot type to generate. See Details for a list of valid types.
+#' @param save Whether or not the generated plots will be saved. Default is \code("FALSE")
+#'
+#'
+#'
+#' @return Prints the specified plot by default leaving the options to save
+#' 	 to the user.
+#' @examples
+#' ## Load data:
+#' library(ltm)
+#' data <- Science[,c(1,3)]
+#' colnames(data) <- paste0("Item ", 1:ncol(data))
+#'
+#' \dontrun{
+#' irtPlot("a")
+#' }
+
 irtPlot <- function(dat,
-                    theta,
+                    theta = seq(-3, 3, 0.001),
                     title = NULL,
                     ddir = getwd(),
                     save = FALSE,

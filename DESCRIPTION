@@ -1,14 +1,16 @@
 Package: irtPlot
 Version: 0.0.4-20
-Title: General IRT Plotting 
+Title: General IRT Plotting
 Authors: Pavel Panko <pavel.panko@ttu.edu>
 Maintainer: Pavel Panko <pavel.panko@ttu.edu>
-Description: User-friendly functions for observing 
-			 data in the context of Item Response Theory.
-			 Contains utilities for binomial, polytomous 
-			 and differential item functioning plotting. 
-Depends: ggplot2, ltm 
-License: GPL-3 | file LICENSE 
+Description: User-friendly functions for observing
+    data in the context of Item Response Theory.
+    Contains utilities for binomial, polytomous
+    and differential item functioning plotting.
+Depends:
+    ggplot2,
+    ltm
+License: GPL-3 | file LICENSE
 Encoding: UTF-8
-LazyData: true, so true... 
-
+LazyData: true, so true...
+RoxygenNote: 5.0.1

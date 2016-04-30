@@ -1,5 +1,5 @@
 polyPlot <- function(dat,
-                     theta,
+                     theta = seq(-6, 6, 0.01),
                      title = NULL,
                      ddir = getwd(),
                      save = FALSE,
