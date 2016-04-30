@@ -1,6 +1,6 @@
 namNamp <- function(x, t) {
-    if(t == "icc") title <- paste0("Cumulative Response Curves \n for the ", x, " Item")
-    else if(t == "iif") title <- paste0("Response Probabilities \n for the ", x, " Item")
+    if(t == "crp") title <- paste0("Cumulative Response Curves \n for the ", x, " Item")
+    else if(t == "icc") title <- paste0("Response Probabilities \n for the ", x, " Item")
 }
 
 pFun <- function(x, l) {
@@ -84,5 +84,26 @@ respFun <- function(x) {
 }
 
 cbmFun <- function(x,y = theta,z) {
-            w <- data.frame(prb = x, tht = y, level = rep(z, each = length(y)))
-        }
+    w <- data.frame(prb = x, tht = y, level = rep(z, each = length(y)))
+}
+
+plotCurv <- function(itms, ttl, x1 = itms$tht, y1 = itms$prb, group = factor(itms$level), ylbs) {
+
+    ggplot2::ggplot(itms, aes(x = x1, y = y1)) +
+        geom_line(color = "red", size = 1) +
+        ggtitle(paste(ttl, '\n')) +
+        xlab(expression(atop(,Ability(theta)))) +
+        scale_x_continuous(breaks = seq(min(x1), max(x1), 1)) +
+        ylab(ylbs) +
+        theme(axis.title = element_text(size = 14, face = "italic"), title = element_text(size = 15, face = "bold"))
+}
+
+cbmFunc <- function(x, y = theta,z) w <- data.frame(prb = x, tht = y)
+
+mult <- function(x, y) {
+    f <- list()
+    for(i in 1:length(x)) {
+        f[[i]] <-  x[i] * y[,i]
+    }
+    return(f)
+}

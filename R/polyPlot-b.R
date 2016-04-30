@@ -21,10 +21,10 @@ polyPlot <- function(dat,
 
     if(model == "grm") {
 
-        cf <- summary(ltm::grm(dat, IRT.param = FALSE))$coefficients
+        cf <- summary(ltm::grm(dat))$coefficients
         prb <- mapply(pFun, x = cf, l = ld, SIMPLIFY = FALSE)
 
-        if(type == "icc") {
+        if(type == "crp") {
 
             pdt <- lapply(prb, function(x) do.call(rbind.data.frame, x))
 
@@ -35,19 +35,35 @@ polyPlot <- function(dat,
             plPlot <- list()
             for(i in 1:length(pdt)) plPlot[[i]] <- plotPoly(pdt[[i]], ttl = title2[i], ylbs = ylb)
 
-        } else if(type == "iif") {
+        } else if(type == "icc"|type = "tcc") {
 
             lst <- lapply(prb, respFun)
             pdt <- mapply(cbmFun, x = lst, z = ld, SIMPLIFY = FALSE)
 
-            plPlot <- list()
-            for(i in 1:length(pdt)) plPlot[[i]] <- plotPoly(pdt[[i]], ttl = title2[i], ylbs = ylb)
+            if(type == "tcc") {
+
+                spd <- lapply(pdt, function(x) do.call("cbind", split(x$prb, x$level)))
+                inx <- lapply(ld, function(x) 1:length(x))
+
+                mt1 <- mapply(mult, x = inx, y = spd, SIMPLIFY = FALSE)
+                mt2 <- lapply(mt1, function(x) Reduce("+", x))
+                mt3 <- lapply(mt2, cbmFunc)
+
+                plPlot <- list()
+                for(i in 1:length(mt3)) plPlot[[i]] <- plotCurv(mt3[[i]], ttl = title2[i], ylbs = ylb)
+
+            } else if (type == "icc") {
+
+                plPlot <- list()
+                for(i in 1:length(pdt)) plPlot[[i]] <- plotPoly(pdt[[i]], ttl = title2[i], ylbs = ylb)
+
+            }
 
         } else stop("Please provide a valid plot type, comrade")
 
     } else if(model == "pcm") {
 
-        md <- summary(ltm::gpcm(dat, IRT.param = FALSE))
+        md <- summary(ltm::gpcm(dat))
         cf <- lapply(md$coefficients, function(x) x[,1])
         pdt <- mapply(cmbFun, x = cf, l = ld, SIMPLIFY = FALSE)
         pdt1 <- lapply(pdt, function(x) lapply(x, exp))
@@ -59,7 +75,7 @@ polyPlot <- function(dat,
 
         rdt <- lapply(pdt1, rpbFun)
 
-        if(type == "iif") {
+        if(type == "icc") {
 
             lds <- list()
             for(i in 1:length(ld)) lds[[i]] <- rep(ld[[i]], each = length(theta))
@@ -69,7 +85,7 @@ polyPlot <- function(dat,
             plPlot <- list()
             for(i in 1:length(pdt)) plPlot[[i]] <- plotPoly(rdt1[[i]], ttl = title2[i], ylbs = ylb)
 
-        } else if (type == "icc") {
+        } else if (type == "crp") {
 
             odt <- lapply(rdt, prbFun)
             ld <- lapply(dat, function(x) paste0("X > ", 1:(length(levels(x))-1)))
