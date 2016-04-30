@@ -1,3 +1,28 @@
+#' Plot Polytomous Item Response Theory models.
+#'
+#' \code{polyPlot} returns a plot within a new device and saves to chosen directory.
+#'
+#' This function specializes in generating polytomous models and plot types.
+#' Namely, the models are \code{"grm"} and \code{"pcm"} and the possible types are
+#' \code{"icc"}, \code{"icf"}, and \code{"crp"}.
+#'
+#' @param dat A data frame containing at least one item as a column.
+#' @param theta The ability parameter across which to plot response parameterization.
+#' @param model The desired model to fit to the data.
+#' @param type The plot type to generate. See Details for a list of valid types.
+#' @param save Whether or not the generated plots will be saved. Default is \code{"FALSE"}
+#'
+#'
+#'
+#' @return Prints the specified plot by default leaving the options to save
+#' 	 to the user.
+#' @examples
+#' ## Load data:
+#' library(ltm)
+#' data <- Science[,c(1,3)]
+#' colnames(data) <- paste0("Item ", 1:ncol(data))
+#'
+
 polyPlot <- function(dat,
                      theta = seq(-6, 6, 0.01),
                      title = NULL,
