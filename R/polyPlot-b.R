@@ -35,7 +35,7 @@ polyPlot <- function(dat,
             plPlot <- list()
             for(i in 1:length(pdt)) plPlot[[i]] <- plotPoly(pdt[[i]], ttl = title2[i], ylbs = ylb)
 
-        } else if(type == "icc"|type = "tcc") {
+        } else if(type == "icc"|type == "tcc") {
 
             lst <- lapply(prb, respFun)
             pdt <- mapply(cbmFun, x = lst, z = ld, SIMPLIFY = FALSE)
