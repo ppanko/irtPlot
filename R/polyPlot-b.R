@@ -21,7 +21,7 @@ polyPlot <- function(dat,
 
     if(model == "grm") {
 
-        cf <- summary(ltm::grm(dat))$coefficients
+        cf <- summary(ltm::grm(dat, IRT.param = FALSE))$coefficients
         prb <- mapply(pFun, x = cf, l = ld, SIMPLIFY = FALSE)
 
         if(type == "icc") {
@@ -47,10 +47,9 @@ polyPlot <- function(dat,
 
     } else if(model == "pcm") {
 
-        md <- summary(ltm::gpcm(dat))
+        md <- summary(ltm::gpcm(dat, IRT.param = FALSE))
         cf <- lapply(md$coefficients, function(x) x[,1])
         pdt <- mapply(cmbFun, x = cf, l = ld, SIMPLIFY = FALSE)
-
         pdt1 <- lapply(pdt, function(x) lapply(x, exp))
 
         for (i in 1:length(pdt1)) {
@@ -73,10 +72,11 @@ polyPlot <- function(dat,
         } else if (type == "icc") {
 
             odt <- lapply(rdt, prbFun)
-
             ld <- lapply(dat, function(x) paste0("X > ", 1:(length(levels(x))-1)))
+
             lds <- list()
             for(i in 1:length(ld)) lds[[i]] <- rep(ld[[i]], each = length(theta))
+
             odt1 <- mapply(mbind, x = odt, l = lds, SIMPLIFY = FALSE)
 
             plPlot <- list()
