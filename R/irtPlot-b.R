@@ -76,7 +76,7 @@ irtPlot <- function(dat,
         if(type == "tif") {
 
             itms <- data.frame(inf = rowSums(inf), theta = theta)
-            itmplot <- plotSin(itms, ttl = title2, x1 = itms$theta, y1 = itms$prb, ylbs = ylb)
+            itmplot <- plotSin(itms, ttl = title2, x1 = itms$theta, y1 = itms$inf, ylbs = ylb)
 
         } else if(type == "iif") {
 
