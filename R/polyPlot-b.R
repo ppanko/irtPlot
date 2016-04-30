@@ -76,15 +76,32 @@ polyPlot <- function(dat,
 
         rdt <- lapply(pdt1, rpbFun)
 
-        if(type == "icc") {
+        if(type == "icc"|type == "icf") {
 
-            lds <- list()
-            for(i in 1:length(ld)) lds[[i]] <- rep(ld[[i]], each = length(theta))
+            if(type == "icf") {
 
-            rdt1 <- mapply(mbind, x = rdt, l = lds, SIMPLIFY = FALSE)
+                ylb <- "Expected Score"
+                spd <- lapply(rdt, function(x) do.call("cbind", x))
+                inx <- lapply(ld, function(x) 1:length(x))
 
-            plPlot <- list()
-            for(i in 1:length(pdt)) plPlot[[i]] <- plotPoly(rdt1[[i]], ttl = title2[i], ylbs = ylb)
+                mt1 <- mapply(mult, x = inx, y = spd, SIMPLIFY = FALSE)
+                mt2 <- lapply(mt1, function(x) Reduce("+", x))
+                mt3 <- lapply(mt2, cbmFunc)
+
+                plPlot <- list()
+                for(i in 1:length(mt3)) plPlot[[i]] <- plotCurv(mt3[[i]], ttl = title2[i], ylbs = ylb)
+
+            } else if (type == "icc") {
+
+                lds <- list()
+                for(i in 1:length(ld)) lds[[i]] <- rep(ld[[i]], each = length(theta))
+
+                rdt1 <- mapply(mbind, x = rdt, l = lds, SIMPLIFY = FALSE)
+
+                plPlot <- list()
+                for(i in 1:length(pdt)) plPlot[[i]] <- plotPoly(rdt1[[i]], ttl = title2[i], ylbs = ylb)
+
+            }
 
         } else if (type == "crp") {
 
