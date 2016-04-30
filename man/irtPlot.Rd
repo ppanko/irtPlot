@@ -38,8 +38,5 @@ library(ltm)
 data <- Science[,c(1,3)]
 colnames(data) <- paste0("Item ", 1:ncol(data))
 
-\dontrun{
-irtPlot("a")
-}
 }
 
