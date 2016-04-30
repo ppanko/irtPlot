@@ -3,14 +3,14 @@
 #' \code{irtPlot} returns a plot within a new device and saves to chosen directory.
 #'
 #' This function is capable of generating several models and plot types.
-#' Namely, the models are \code("1PL"),\code("2PL"), and \code("3PL") and the possible types are
-#' \code("icc"), \code("tcc"), \code("iif"), \code("tif"), \code("likl"), and \code("logl")
+#' Namely, the models are \code{"1PL"},\code{"2PL"}, and \code{"3PL"} and the possible types are
+#' \code{"icc"}, \code{"tcc"}, \code{"iif"}, \code{"tif"}, \code{"likl"}, and \code{"logl"}
 #'
 #' @param dat A data frame containing at least one item as a column.
 #' @param theta The ability parameter across which to plot response parameterization.
 #' @param model The desired model to fit to the data.
 #' @param type The plot type to generate. See Details for a list of valid types.
-#' @param save Whether or not the generated plots will be saved. Default is \code("FALSE")
+#' @param save Whether or not the generated plots will be saved. Default is \code{"FALSE"}
 #'
 #'
 #'

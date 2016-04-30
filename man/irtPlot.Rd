@@ -14,7 +14,7 @@ irtPlot(dat, theta = seq(-3, 3, 0.001), title = NULL, ddir = getwd(),
 
 \item{theta}{The ability parameter across which to plot response parameterization.}
 
-\item{save}{Whether or not the generated plots will be saved. Default is \code("FALSE")}
+\item{save}{Whether or not the generated plots will be saved. Default is \code{"FALSE"}}
 
 \item{model}{The desired model to fit to the data.}
 
@@ -29,8 +29,8 @@ Prints the specified plot by default leaving the options to save
 }
 \details{
 This function is capable of generating several models and plot types.
-Namely, the models are \code("1PL"),\code("2PL"), and \code("3PL") and the possible types are
-\code("icc"), \code("tcc"), \code("iif"), \code("tif"), \code("likl"), and \code("logl")
+Namely, the models are \code{"1PL"},\code{"2PL"}, and \code{"3PL"} and the possible types are
+\code{"icc"}, \code{"tcc"}, \code{"iif"}, \code{"tif"}, \code{"likl"}, and \code{"logl"}
 }
 \examples{
 ## Load data:
