@@ -31,8 +31,8 @@ polyPlot <- function(dat,
                      model,
                      type,
                      fln = paste0(model, "_", type, "_", colnames(dat), ".jpg"),
-                     dpi = 72,
-                     height = 6.5,
+                     dpi = 150,
+                     height = 8.5,
                      width = 10,
                      itmNam = colnames(dat))
 
