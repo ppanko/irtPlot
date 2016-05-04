@@ -24,14 +24,14 @@
 #'
 
 polyPlot <- function(dat,
-                     theta = seq(-6, 6, 0.01),
+                     theta = seq(-3, 3, 0.01),
                      title = NULL,
                      ddir = getwd(),
                      save = FALSE,
                      model,
                      type,
                      fln = paste0(model, "_", type, "_", colnames(dat), ".jpg"),
-                     dpi = 800,
+                     dpi = 72,
                      height = 6.5,
                      width = 10,
                      itmNam = colnames(dat))
