@@ -7,7 +7,7 @@ difPlot <- function(dat,
                     grp,
                     fln = paste0(model, "_", "dif_", colnames(dat), ".jpg"),
                     dpi = 800,
-                    height = 6.5,
+                    height = 8.5,
                     width = 10,
                     itmNam = colnames(dat),
                     silent = FALSE)
@@ -46,5 +46,5 @@ difPlot <- function(dat,
 
     if(save == TRUE) mapply(gSave, x = itmplot, flnm = fln, dDir = ddir, res = dpi, hgt = height, wdt = width)
 
-    if(silent) print(lapply(plPlot, prints))
+    if(silent == FALSE) print(lapply(itmplot, prints))
 }

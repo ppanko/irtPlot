@@ -34,7 +34,8 @@ polyPlot <- function(dat,
                      dpi = 300,
                      height = 8.5,
                      width = 10,
-                     itmNam = colnames(dat))
+                     itmNam = colnames(dat),
+                     silent = FALSE)
 
 {
 
@@ -146,6 +147,6 @@ polyPlot <- function(dat,
 
     if(save == TRUE) mapply(gSave, x = plPlot , flnm = fln, dDir = ddir, res = dpi, hgt = height, wdt = width)
 
-    print(lapply(plPlot, prints))
+    if(silent == FALSE) print(lapply(plPlot, prints))
 
 }

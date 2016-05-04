@@ -35,7 +35,8 @@ irtPlot <- function(dat,
                     height = 8.5,
                     width = 10,
                     itmNam = colnames(dat),
-                    subS = NULL) {
+                    subS = NULL,
+                    silent = FALSE) {
 
     ind <- ncol(dat)
     ylb <- expression(atop(P(theta),))
@@ -137,9 +138,9 @@ irtPlot <- function(dat,
 
     } else stop("Please provide a valid plot type, comrade")
 
-    if (save == TRUE) ggplot2::ggsave(itmplot, file = paste0(ddir,"/",filename), dpi = dpi, height = height, width = width)
+    if(save == TRUE) ggplot2::ggsave(itmplot, file = paste0(ddir,"/",filename), dpi = dpi, height = height, width = width)
 
-    print(itmplot)
+    if(silent == FALSE) print(itmplot)
 
 }
 
