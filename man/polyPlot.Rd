@@ -4,10 +4,10 @@
 \alias{polyPlot}
 \title{Plot Polytomous Item Response Theory models.}
 \usage{
-polyPlot(dat, theta = seq(-6, 6, 0.01), title = NULL, ddir = getwd(),
+polyPlot(dat, theta = seq(-3, 3, 0.01), title = NULL, ddir = getwd(),
   save = FALSE, model, type, fln = paste0(model, "_", type, "_",
-  colnames(dat), ".jpg"), dpi = 800, height = 6.5, width = 10,
-  itmNam = colnames(dat))
+  colnames(dat), ".jpg"), dpi = 300, height = 8.5, width = 10,
+  itmNam = colnames(dat), silent = FALSE)
 }
 \arguments{
 \item{dat}{A data frame containing at least one item as a column.}
@@ -33,10 +33,10 @@ Namely, the models are \code{"grm"} and \code{"pcm"} and the possible types are
 \code{"icc"}, \code{"icf"}, and \code{"crp"}.
 }
 \examples{
-## Load data:
+## Example notation:
 library(ltm)
 data <- Science[,c(1,3)]
 colnames(data) <- paste0("Item ", 1:ncol(data))
-
+polyPlot(data, theta, model = "grm", type = "crp")
 }
 
