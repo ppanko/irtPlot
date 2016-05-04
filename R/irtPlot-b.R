@@ -17,11 +17,9 @@
 #' @return Prints the specified plot by default leaving the options to save
 #' 	 to the user.
 #' @examples
-#' ## Load data:
-#' library(ltm)
-#' data <- Science[,c(1,3)]
-#' colnames(data) <- paste0("Item ", 1:ncol(data))
-#'
+#' ## Example notation:
+#' theta <- seq(-3,3, 0.01)
+#' irtPlot(data, theta, model = "3PL", type = "iif")
 
 irtPlot <- function(dat,
                     theta = seq(-3, 3, 0.001),

@@ -17,11 +17,11 @@
 #' @return Prints the specified plot by default leaving the options to save
 #' 	 to the user.
 #' @examples
-#' ## Load data:
+#' ## Example notation:
 #' library(ltm)
 #' data <- Science[,c(1,3)]
 #' colnames(data) <- paste0("Item ", 1:ncol(data))
-#'
+#' polyPlot(data, theta, model = "grm", type = "crp")
 
 polyPlot <- function(dat,
                      theta = seq(-3, 3, 0.01),

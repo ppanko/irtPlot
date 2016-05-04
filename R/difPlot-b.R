@@ -1,3 +1,27 @@
+#' Differential Item Functioning IRT models.
+#'
+#' \code{difPlot} returns a plot within a new device and saves to chosen directory.
+#'
+#' This function specializes in generating models to examine DIF.
+#' Currently, the only supported type is \code{"icc"} with \code{"1PL"} and \code{"2PL"} models.
+#'
+#' @param dat A data frame containing at least one item as a column.
+#' @param theta The ability parameter across which to plot response parameterization.
+#' @param model The desired model to fit to the data.
+#' @param type The plot type to generate. See Details for a list of valid types.
+#' @param save Whether or not the generated plots will be saved. Default is \code{"FALSE"}
+#'
+#'
+#'
+#' @return Prints the specified plot by default leaving the options to save
+#' 	 to the user.
+#' @examples
+#' ## Example notation:
+#' theta <- seq(-3,3, 0.01)
+#' difPlot(data, theta, grp = group, model = "1PL", type = "icc")
+#'
+#'
+
 difPlot <- function(dat,
                     theta = seq(-3,3, 0.01),
                     title = NULL,
@@ -6,7 +30,7 @@ difPlot <- function(dat,
                     model,
                     grp,
                     fln = paste0(model, "_", "dif_", colnames(dat), ".jpg"),
-                    dpi = 800,
+                    dpi = 300,
                     height = 8.5,
                     width = 10,
                     itmNam = colnames(dat),
