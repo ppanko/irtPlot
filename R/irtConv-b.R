@@ -11,15 +11,15 @@ namNaml <- function(t, i) {
 }
 
 #type icc calculation
-calcP <- function(dat, theta = tht) {
-    iprb <- dat["c"] + (1 - dat["c"])*((exp(1.7*dat["a"]*(theta-dat["b"])))/(1+(exp(1.7*dat["a"]*(theta-dat["b"])))))
+calcP <- function(dat, tht = theta) {
+    iprb <- dat["c"] + (1 - dat["c"])*((exp(1.7*dat["a"]*(tht-dat["b"])))/(1+(exp(1.7*dat["a"]*(tht-dat["b"])))))
 
     return(iprb)
 }
 
                                         # type iif calculation
-calcI <- function(dat, theta = tht) {
-    inf <- (1.7^2*dat["a"]^2*(1 - dat["c"]))/((dat["c"]+exp(1.7*dat["a"]*(theta-dat["b"])))*(1+exp(-1.7*dat["a"]*(theta-dat["b"])))^2)
+calcI <- function(dat, tht = theta) {
+    inf <- (1.7^2*dat["a"]^2*(1 - dat["c"]))/((dat["c"]+exp(1.7*dat["a"]*(tht-dat["b"])))*(1+exp(-1.7*dat["a"]*(tht-dat["b"])))^2)
 
     return(inf)
 }
