@@ -9,7 +9,8 @@ difPlot <- function(dat,
                     dpi = 800,
                     height = 6.5,
                     width = 10,
-                    itmNam = colnames(dat))
+                    itmNam = colnames(dat),
+                    silent = FALSE)
 
 {
 
@@ -43,7 +44,7 @@ difPlot <- function(dat,
 
     itmplot <- mapply(plotDif, itms, title2, SIMPLIFY = FALSE)
 
-    if(save == TRUE) mapply(gSave, x = plPlot , flnm = fln, dDir = ddir, res = dpi, hgt = height, wdt = width)
+    if(save == TRUE) mapply(gSave, x = itmplot, flnm = fln, dDir = ddir, res = dpi, hgt = height, wdt = width)
 
-    print(lapply(plPlot, prints))
+    if(silent) print(lapply(plPlot, prints))
 }
