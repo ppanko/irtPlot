@@ -6,8 +6,8 @@ namNami <- function(t, i) {
 }
 
 namNaml <- function(t, i) {
-    if(t == "likl") title <- paste0("Likelihood Estimates \n for the ", i, " Observations")
-    else if(t == "logl") title <- paste0("Log-Likelihood Estimates \n for the ", i, " Observations")
+    if(t == "likl") title <- paste0("Likelihood Estimates \n for the ", i, " Observation(s)")
+    else if(t == "logl") title <- paste0("Log-Likelihood Estimates \n for the ", i, " Observation(s)")
 }
 
 #type icc calculation
