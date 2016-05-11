@@ -1,5 +1,5 @@
 ---
-title: "irtPlot - Plotting Binary Items"
+title: "irtPlot - Plotting Dichotomous Items"
 author: "Pavel Panko"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -9,67 +9,138 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+The irtPlot function is a flexible utility used to create publication-quality graphics for various aspects of dichotomous IRT models. This function also provides several useful utilities to facilitate graphic creation. The general flow of tasks within the function is as follows: 
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+- Use the `ltm` package to estimate a model based on the given data.  
+- Calculate outcome (e.g., probablity, information) using the estimated parameters and supplied theta values. 
+- Plot the resultant outcome against the theta values using `ggplot2`. 
+- Save the plot if desired. 
 
 ## Getting Started
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to
+#### Essential
+
+Before using the function, the user must provide two primary arguments. First, the user must declare a data set for which he or she wishes to create graphics. Second, a sequence of theta values should be selected in order to plot the parameters. In the example below, the data are drawn from `ltm` package and the theta values are chosen accordingly using the `seq` function. 
 ```{r, message = FALSE}
 library(irtPlot)
 data <- LSAT
 theta <- seq(-6,3, 0.01)
 ```
+Next, the user must choose which `model` and `type` to plot. This function supports `"1PL"`, `"2PL"`, and `"3PL"` models as well as [Item Characteristic Curves](#icc) (`"icc"`), [Test Characterstic Curves](#icc) (`"tcc"`), [Item Information Functions](#iif) (`"iif"`), [Test Information Functions](#iif) (`"tif"`), and [Ability Parameter Estimation](#lik) (`"likl"`, `"logl"`) types. See relevant sections below for more information on types. 
 
-instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+
+#### Options
+
+Having dispensed with the required arguments, the user is free to select a number of optional commands to personalize the desired plot. Most of the the arguments in this section are used to tweak default setting for the `save` utility. 
+
+- *ddir*: A character string specifying the directory in which to save plots. Default is the current working directory. 
+
+- *save*: A logical value specifying whether or not to save the resultant graphics. Requires `TRUE/FALSE`; default is `FALSE`. 
+
+- *title*: A character string to specify the name of the plot. Default behavior is to specify the plot type and the number of items in the model. 
+
+- *filename*: A character string indicating the desired filename for the saved plot. The default filename is based on the model and type arguments. 
+
+- *dpi*: An integer value specifying the resolution of the saved graphic. Default value is 300; recommended value for standard poster-size figures is 600. 
+
+- *width*: A numeric value for the desired width of the figure in inches. Default is 8.5 inches.
+
+- *height*: A numeric value for the desired height of the figure in inches. Default is 10 inches. 
+
+- *itmNam*: A vector of character string specifying the name of the items displayed in the legend. Default values are the names of the columns in the specified data set. 
+
+- *subS*: A data frame used to subset the supplied data for the `"likl"` and `"logl"` types. See the [relevant](#lik) section below for further details. 
+
+- *silent*: A logical value specifying whether or not to print graphics to screen. This feature is primarily used when the user simply wants to save a plot without examining it. Default is `FALSE`. 
+
+The user is encouraged to view the help files using the `?irtPlot` function. 
+
+<a name = "icc"/>
 
 ## Item & Test Charactersitic Curves 
 
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
+
+For dichotomous items, Item Characteristic Curves are used to model the probability of answering a given item correctly across a range of ability values. The 3PL probability of a correct answer for subject *s* on item *i* is given by the following formula: 
+
+$$P(Y_{is}=1|\theta_s) = c_i + (1 - c_i)\frac{exp(1.7a_i(\theta_s - b_i))}{1 + exp(1.7a_i(\theta_s - b_i))}$$
+
+Similarly, Test Characteristic Curves represent the probability of observing a certain response total over a range of ability values. The probability of the expected score on the test for subject *s* is shown below: 
+
+$$TCC(\theta_s) = \sum_{i=1}^I P(Y_{is} = 1|\theta_s)$$
+
+Examples using the `LSAT` data are shown below for each type of plot. 
+
+***
 
 ```{r, fig.height=4.5, fig.width=5.5, fig.align = 'center', dev = 'svg'}
-irtPlot(data, theta, model = "2PL", type = "icc")
-irtPlot(data, theta, model = "2PL", type = "tcc")
+irtPlot(data, theta, model = "3PL", type = "icc")
+irtPlot(data, theta, model = "3PL", type = "tcc")
 ```
 
-## Item & Test Characteristic Curves 
+***
 
-The figure sizes have been customised so that you can easily put two images side-by-side. 
+<a name = "iif"/>
+
+## Item & Test Information Functions 
+
+The measurement reliability of a given item can be approximated using Item Information Functions. The information of a given item *i* can be plotted against a range of $\theta$ values to determine the usefullness of *i* across ability levels, as shown below: 
+
+$$I_i(\theta) = \frac{1.7_2a_i^2(1-c_i)}{[c_i + exp(1.7a_i(\theta - b_i))][1 + exp(1.7a_i(\theta - b_i))]}$$
+
+Furthermore, the reliability of a test across ability levels can be estimated by summing the *i* items of a given model:  
+
+$$I(\theta) = \sum_{i = 1}^I I_i(\theta) $$
+
+Examples of each plot type are shown below.  
+
+***
 
 ```{r, fig.height=4.5, fig.width=5.5, fig.align = 'center', dev = 'svg'}
 irtPlot(data, theta, model = "3PL", type = "iif")
 irtPlot(data, theta, model = "3PL", type = "tif")
 ```
 
-## Likelihood & Log-Likelihood 
+***
 
-The figure sizes have been customised so that you can easily put two images side-by-side.
+<a name = "lik"/>
+
+## Ability Parameter Estimation 
+
+The likelihood of a given response pattern can be computed for a set of ability values. This process can be used to determine a participant's ability level indicated by a peak in the plotted curve. The formula below shows the computational form of the likelihood for person *n* for item set *j* given $\theta$: 
+
+$$L(u_1...,u_j...,u_n|\theta) = \prod_{j = 1}^n P_j^{u_j} (1-P_j)^{1-u_j}$$
+
+Additionally, it is also possible to plot the log-likelihood estimates. This tranformation can be expressed:
+
+$$ln[L(\mathbf{u}|\theta)] = \sum_{j = 1}^n [u_jlnP_j + (1 - u_j)ln(1 - P_j)]$$
+
+**Note**: Due to the fact that likelihoods are computed for one row at a time, this function make take a very long time with a large data sets. Users are strongly encouraged to use the `subS = data[x,]` where `data` is the data frame entered in the first argument and `x` is a vector of select observations.  
+
+***
 
 ```{r, fig.height=4.5, fig.width=5.5, fig.align = 'center', dev = 'svg'}
-irtPlot(data, theta, model = "1PL", type = "likl", subS = data[1,])
-irtPlot(data, theta, model = "1PL", type = "logl", subS = data[1,])
+irtPlot(data, theta, model = "2PL", type = "likl", subS = data[1,])
+irtPlot(data, theta, model = "2PL", type = "logl", subS = data[1,])
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
+***
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
+## References 
+Embertson, S.E., & Reise, S. P. (2000). *Item Response Theory for Psychologists*. Hillsdale, NJ: Erlbaum.
 
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
+Lee, J. (2016). *Lectures on Item Response Theory*. Personal Collection of J. Lee, Texas Tech University, 
+  Lubbock, TX.
 
-## More Examples
+Rizopoulos D. (2006). ltm: An R package for Latent Variable Modelling and Item Response Theory Analyses. 
+  *Journal of Statistical Software, 17*(5), 1-25. URL http://www.jstatsoft.org/v17/i05/
 
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
+Wickham, H. (2009). *ggplot2: Elegant Graphics for Data Analysis*. New York: Springer-Verlag.
 
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
-```
+### See Also
+- difPlot
+- polyPlot
 
-Also a quote using `>`:
+***
 
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+Please leave comments at the project repository: https://www.github.com/ppanko/irtPlot 
+
