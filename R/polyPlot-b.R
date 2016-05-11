@@ -68,7 +68,7 @@ polyPlot <- function(dat,
 
             if(type == "icf") {
 
-                ylb <- "Expected Score"
+                ylb <- "Expected Score \n"
                 spd <- lapply(pdt, function(x) do.call("cbind", split(x$prb, x$level)))
                 inx <- lapply(ld, function(x) 1:length(x))
 
