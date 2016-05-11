@@ -138,7 +138,7 @@ polyPlot <- function(dat,
             for(i in 1:length(ld)) lds[[i]] <- rep(ld[[i]], each = length(theta))
 
             odt1 <- mapply(mbind, x = odt, l = lds, SIMPLIFY = FALSE)
-browser()
+
             plPlot <- list()
             for(i in 1:length(pdt)) plPlot[[i]] <- plotPoly(odt1[[i]], ttl = title2[i], ylbs = ylb)
 
