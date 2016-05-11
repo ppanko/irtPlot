@@ -4,7 +4,7 @@ namNamp <- function(x, t) {
     else if(t == "icf") title <- paste0("Item Characteristic Function \n for the ", x, " Item")
 }
 
-pFun <- function(x, l) {
+pFun <- function(x, l) {0
 
     obj <- list()
     t <- length(l)
