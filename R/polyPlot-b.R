@@ -55,7 +55,7 @@ polyPlot <- function(dat,
             pdt <- lapply(prb, function(x) do.call(rbind.data.frame, x))
 
             for(i in 1:length(pdt)) {
-                pdt[[i]]$level <- rep(paste0("X > ", 1:(length(levels(pdt[[i]]$level))-1)), each = length(theta))
+                pdt[[i]]$level <- rep(paste0("Y > ", 1:(length(levels(pdt[[i]]$level))-1)), each = length(theta))
             }
 
             plPlot <- list()
@@ -106,7 +106,7 @@ polyPlot <- function(dat,
 
             if(type == "icf") {
 
-                ylb <- "Expected Score"
+                ylb <- "Expected Score \n"
                 spd <- lapply(rdt, function(x) do.call("cbind", x))
                 inx <- lapply(ld, function(x) 1:length(x))
 
@@ -132,13 +132,13 @@ polyPlot <- function(dat,
         } else if (type == "crp") {
 
             odt <- lapply(rdt, prbFun)
-            ld <- lapply(dat, function(x) paste0("X > ", 1:(length(levels(x))-1)))
+            ld <- lapply(dat, function(x) paste0("Y > ", 1:(length(levels(x))-1)))
 
             lds <- list()
             for(i in 1:length(ld)) lds[[i]] <- rep(ld[[i]], each = length(theta))
 
             odt1 <- mapply(mbind, x = odt, l = lds, SIMPLIFY = FALSE)
-
+browser()
             plPlot <- list()
             for(i in 1:length(pdt)) plPlot[[i]] <- plotPoly(odt1[[i]], ttl = title2[i], ylbs = ylb)
 

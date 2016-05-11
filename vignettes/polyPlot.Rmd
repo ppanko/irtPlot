@@ -1,0 +1,179 @@
+---
+title: "polyPlot - Plotting Polytomous Items"
+author: "Pavel Panko"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+polyPlot is a flexible utility used to create publication-quality graphics for various aspects of polytomous IRT models. This function also provides several useful utilities to facilitate graphic creation. The general flow of tasks within the function is as follows: 
+
+- Use the `ltm` package to estimate a model based on the given data.  
+- Calculate outcome (e.g., probability, information) using the estimated parameters and supplied theta values. 
+- Plot the resultant outcome against the theta values using `ggplot2` for each item. 
+- Press Enter to toggle between plots. 
+- Save the plots if desired. 
+
+<a name = "top"/>
+
+## Getting Started
+
+#### Essential
+
+Before using the function, the user must provide two primary arguments. First, the user must declare a data set for which he or she wishes to create graphics. Second, a sequence of theta values should be selected in order to plot the parameters. In the example below, the data are drawn from `ltm` package and the theta values are chosen accordingly using the `seq` function. 
+```{r, message = FALSE}
+library(irtPlot)
+data <- Science[,c("Future", "Benefit")]
+theta <- seq(-4,4, 0.01)
+```
+Next, the user must choose which `model` and `type` to plot. This function currently supports Samejima's Graded Response Model (`"grm"`) as well as the Partial Credit Model (`"pcm"`). The supported types are [Cumulitive Response Probability](#crp) (`"crp"`), [Item Characteristic Curves](#icc) (`"icc"`), [Item Charactersitc Function](#icf) (`"icf"`). See relevant sections below for more information on types.
+
+**Note**: to reduce clutter, polyPlot creates a separate graphic for each item. Subsequent to running the polyPlot function, a new device will be opened to display the plots. After the user presses Enter or clicks on the screen using the left mouse button, the first plot will be printed to the device along with its corresponding plot number being printed in the terminal. In the current example, polyPlot will first print the "Future" item along with a `[[1]]` in the terminal. After the user continues to the next plot either by clicking or pressing Enter, the "Benefit" itme will be displayed in the device with a corresponding `[[2]]`. 
+
+#### Options
+
+Having dispensed with the required arguments, the user is free to select a number of optional commands to personalize the desired plot. Most of the the arguments in this section are used to tweak default setting for the `save` utility. 
+
+- *ddir*: A character string specifying the directory in which to save plots. Default is the current working directory. 
+
+- *save*: A logical value specifying whether or not to save the resultant graphics. Requires `TRUE/FALSE`; default is `FALSE`. 
+
+- *title*: A character string to specify the name of the plot. Default behavior is to specify the plot type and the number of items in the model. 
+
+- *filename*: A vector of character strings indicating the desired filename for each item to save. The default filenames are based on the model, type and the column name of each item. 
+
+- *dpi*: An integer value specifying the resolution of the saved graphic. Default value is 300; recommended value for standard poster-size figures is 600. 
+
+- *width*: A numeric value for the desired width of the figure in inches. Default is 8.5 inches.
+
+- *height*: A numeric value for the desired height of the figure in inches. Default is 10 inches. 
+
+- *itmNam*: A vector of character strings specifying the name of the items displayed in the legend. Default values are the names of the columns in the specified data set. 
+
+- *silent*: A logical value specifying whether or not to print graphics to screen. This feature is primarily used when the user simply wants to save a plot without examining it. Default is `FALSE`. 
+
+The user is encouraged to view the help files using the `?polyPlot` function. 
+
+<a name = "crp"/>
+
+## Cumulitive Response Probabilities  
+
+The first plot type available in the polyPlot function is used to calculate the probability of a response being greather than a given threshold. For a graded response model, the probability of observing a response greather than *x* for item *i* can be stated as shown below: 
+
+$$P(Y_i > x|(\theta_s) = \frac{exp(1.7a_i(\theta_s - b_{ij}))}{1 + exp(1.7a_i(\theta_s - b_{ij}))}$$
+
+For the partial credit model, the cumulative probabilities are calculated based on the category response probabilities. The probability of observing a response greater than 1 for item *i* can be expressed as:
+
+$$P(Y_{i} > 1|\theta_s) = \frac{P_{i2}}{P_{i1} + P_{i2}}$$
+
+The graphics below represent the `"crp"` type plots for the "Future" and "Benefit" items relative to their respective model: first `"grm"` then `"pcm"`. 
+
+[Back to top](#top)
+
+***
+
+### Graded Response Model
+```{r, fig.height=4.5, fig.width=6.5, fig.align = 'center', dev = 'svg'}
+polyPlot(data, theta, model = "grm", type = "crp")
+```
+
+### Partial Credit Model
+
+```{r, fig.height=4.5, fig.width=6.5, fig.align = 'center', dev = 'svg'}
+polyPlot(data, theta, model = "pcm", type = "crp")
+```
+
+***
+
+<a name = "icc"/>
+
+## Item Characteristic Curves 
+
+The measurement reliability of a given item can be approximated using Item Information Functions. The information of a given item *i* can be plotted against a range of $\theta$ values to determine the usefulness of *i* across ability levels, as shown below: 
+
+Subtracting adjacent categories
+
+$$P(Y_{i}= 0|\theta_s) = 1 - P_{i1}(\theta_s)$$
+$$P(Y_{i}= 1|\theta_s) = P_{i1}(\theta_s) - P_{i2}(\theta_s)$$
+$$P(Y_{i}= n|\theta_s) = P_{in}(\theta_s) - 0$$
+
+Furthermore, the reliability of a test across ability levels can be estimated by summing the *i* items of a given model:  
+
+$$P(Y_{i} = x|\theta_s) = \frac{exp[\sum_{j=0}^x (\theta_s-\beta_{ij})]}{\sum_{r=0}^{m_i} [exp \sum_{j=0}^x (\theta_s-\beta_{ij})]}$$
+
+Examples of each plot type are shown below.  
+
+[Back to top](#top)
+
+***
+
+### Graded Response Model
+```{r, fig.height=4.5, fig.width=6.5, fig.align = 'center', dev = 'svg'}
+polyPlot(data, theta, model = "grm", type = "icc")
+```
+
+### Partial Credit Model
+
+```{r, fig.height=4.5, fig.width=6.5, fig.align = 'center', dev = 'svg'}
+polyPlot(data, theta, model = "pcm", type = "icc")
+```
+
+***
+
+<a name = "icf"/>
+
+## Item Characteristic Function 
+
+The likelihood of a given response pattern can be computed for a set of ability values. This process can be used to determine a participant's ability level indicated by a peak in the plotted curve. The formula below shows the computational form of the likelihood for person *n* for item set *j* given $\theta$: 
+
+$$E(X_i|\theta_s) = \sum_{x=0}^{m_j} xP_{ix} (\theta_s)$$
+
+Additionally, it is also possible to plot the log-likelihood estimates. This transformation can be expressed:
+
+$$ln[L(\mathbf{u}|\theta)] = \sum_{j = 1}^n [u_jlnP_j + (1 - u_j)ln(1 - P_j)]$$
+
+**Note**: Due to the fact that likelihoods are computed for one row at a time, this function make take a very long time with a large data sets. Users are strongly encouraged to use the `subS = data[x,]` where `data` is the data frame entered in the first argument and `x` is a vector of select observations.  
+
+[Back to top](#top)
+
+***
+
+### Graded Response Model
+```{r, fig.height=4.5, fig.width=6.5, fig.align = 'center', dev = 'svg'}
+polyPlot(data, theta, model = "grm", type = "icf")
+```
+
+### Partial Credit Model
+
+```{r, fig.height=4.5, fig.width=6.5, fig.align = 'center', dev = 'svg'}
+polyPlot(data, theta, model = "pcm", type = "icf")
+```
+
+***
+
+## References 
+Embertson, S.E., & Reise, S. P. (2000). *Item Response Theory for Psychologists*. Hillsdale, NJ: Erlbaum.
+
+Lee, J. (2016). *Lectures on Item Response Theory*. Personal Collection of J. Lee, Texas Tech University, 
+  Lubbock, TX.
+
+Masters, G.N. (1982). A Rasch model for partial credit scoring. Psychometrika, 47, 149-174.
+
+Rizopoulos D. (2006). ltm: An R package for Latent Variable Modelling and Item Response Theory Analyses. 
+  *Journal of Statistical Software, 17*(5), 1-25. URL http://www.jstatsoft.org/v17/i05/
+
+Samejima, F. (1969). Estimation of Latent Ability Using a Response Pattern of Graded Scores (Psychometric Monograph No. 17). Richmond, VA: Psychometric Society. Retrieved from http://www.psychometrika.org/journal/online/MN17.pdf
+
+Wickham, H. (2009). *ggplot2: Elegant Graphics for Data Analysis*. New York: Springer-Verlag.
+
+### See Also
+- difPlot
+- irtPlot
+
+***
+
+Please leave comments at the project repository: https://www.github.com/ppanko/irtPlot 
+
