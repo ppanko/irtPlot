@@ -87,7 +87,7 @@ difPlot <- function(dat,
         itms <- data.frame(lr = abs(c(outL$LordChi, outR$RajuZ, outM$MH)), itm = 1:inds,
                            mth = factor(rep(c("L", "R", "M"), each = inds)))
 
-        itmplot <- plotLMR(itms, ttl = "hi", ylbs = ylb, nm = itmNam, thrs = thr)
+        itmplot <- plotLMR(itms, ttl = title2, ylbs = ylb, nm = itmNam, thrs = thr)
 
         if(save == TRUE) ggplot2::ggsave(itmplot, file = paste0(ddir,"/",filename), dpi = dpi, height = height, width = width)
 
