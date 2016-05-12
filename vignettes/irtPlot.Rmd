@@ -12,7 +12,7 @@ vignette: >
 The irtPlot function is a flexible utility used to create publication-quality graphics for various aspects of dichotomous IRT models. This function also provides several useful utilities to facilitate graphic creation. The general flow of tasks within the function is as follows: 
 
 - Use the `ltm` package to estimate a model based on the given data.  
-- Calculate outcome (e.g., probablity, information) using the estimated parameters and supplied theta values. 
+- Calculate outcome (e.g., probability, information) using the estimated parameters and supplied theta values. 
 - Plot the resultant outcome against the theta values using `ggplot2`. 
 - Save the plot if desired. 
 
@@ -27,7 +27,7 @@ irtPlot is part of the irtPlot package available on github. To download the pack
 library(devtools)
 install_github("ppanko/irtPlot")
 ```
-Before using the function, the user must provide two primary arguments. First, the user must declare a data set for which he or she wishes to create graphics. Second, a sequence of theta values should be selected in order to plot the parameters. In the example below, the data are drawn from `ltm` package and the theta values are chosen accordingly using the `seq` function. 
+Before using irtPlot, the user must provide two primary arguments. First, the user must declare a data set for which he or she wishes to create graphics. Second, a sequence of theta values should be selected in order to plot the parameters. In the example below, the data are drawn from `ltm` package and the theta values are chosen accordingly using the `seq` function. 
 ```{r, message = FALSE}
 library(irtPlot)
 data <- LSAT
@@ -67,11 +67,11 @@ The user is encouraged to view the help files using the `?irtPlot` function.
 ## I. Item & Test Charactersitic Curves 
 
 
-For dichotomous items, Item Characteristic Curves are used to model the probability of answering a given item correctly across a range of ability values. The 3PL probability of a correct answer for subject *s* on item *i* is given by the following formula: 
+For dichotomous items, Item Characteristic Curves are used to model the probability of answering a given item correctly across a range of ability values. The 3PL probability of a correct answer for ability *s* on item *i* is given by the following formula: 
 
 $$P(Y_{is}=1|\theta_s) = c_i + (1 - c_i)\frac{exp(1.7a_i(\theta_s - b_i))}{1 + exp(1.7a_i(\theta_s - b_i))}$$
 
-Similarly, Test Characteristic Curves represent the probability of observing a certain response total over a range of ability values. The probability of the expected score on the test for subject *s* is shown below: 
+Similarly, Test Characteristic Curves represent the probability of observing a certain response total over a range of ability values. The probability of the expected score on the test for ability *s* is shown below: 
 
 $$TCC(\theta_s) = \sum_{i=1}^I P(Y_{is} = 1|\theta_s)$$
 
@@ -93,7 +93,7 @@ irtPlot(data, theta, model = "3PL", type = "tcc")
 
 ## II. Item & Test Information Functions 
 
-The measurement reliability of a given item can be approximated using Item Information Functions. The information of a given item *i* can be plotted against a range of $\theta$ values to determine the usefullness of *i* across ability levels, as shown below: 
+The measurement reliability of a given item can be approximated using Item Information Function. The information of a given item *i* can be plotted against a range of $\theta$ values to determine the usefulness of *i* across ability levels, as shown below: 
 
 $$I_i(\theta) = \frac{1.7_2a_i^2(1-c_i)}{[c_i + exp(1.7a_i(\theta - b_i))][1 + exp(1.7a_i(\theta - b_i))]}$$
 
@@ -125,7 +125,7 @@ The likelihood of a given response pattern can be computed for a set of ability 
 
 $$L(u_1...,u_j...,u_n|\theta) = \prod_{j = 1}^n P_j^{u_j} (1-P_j)^{1-u_j}$$
 
-Additionally, it is also possible to plot the log-likelihood estimates. This tranformation can be expressed:
+Additionally, it is also possible to plot the log-likelihood estimates. This transformation can be expressed:
 
 $$ln[L(\mathbf{u}|\theta)] = \sum_{j = 1}^n [u_jlnP_j + (1 - u_j)ln(1 - P_j)]$$
 

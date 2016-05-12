@@ -1,19 +1,16 @@
 ---
 title: "difPlot - Visualizing DIF Analysis"
 author: "Pavel Panko"
-date: "`r Sys.Date()`"
+date: '`r Sys.Date()`'
 output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Vignette Title}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+vignette: |
+  %\VignetteIndexEntry{Vignette Title} %\VignetteEngine{knitr::rmarkdown} %\VignetteEncoding{UTF-8}
 ---
 
 The difPlot function is a flexible utility used to create publication-quality graphics for examining Differential Item Functioning in dichotomous item models. This function also provides several useful utilities to facilitate graphic creation. The general flow of tasks within the function is as follows: 
 
-- Use the `ltm` package to estimate a separate model between the chosen groups.  
-- Calculate the probability using the estimated parameters and supplied theta values for each group. 
-- Plot the resultant probability against the theta values using `ggplot2`. 
+- Use the `ltm` or `dif` to calculate differences between chosen groups.  
+- Plot the resultant values by group using `ggplot2`. 
 - Press Enter to toggle between plots.
 - Save the plot if desired. 
 
@@ -28,7 +25,9 @@ difPlot is part of the irtPlot package available on github. To download the pack
 library(devtools)
 install_github("ppanko/irtPlot")
 ```
-Before using the function, the user must provide three arguments. First, the user must declare a data set for which he or she wishes to create graphics. Second, a sequence of theta values should be selected in order to plot the parameters (not necessary for `"lmr"`). Lastly, the grouping variable should be declared as a factor. In the example below, the data are drawn from `difR` package and the theta values are chosen accordingly using the `seq` function, while the grouping variable is set to "Gender". 
+Before using the difPlot function, the user must provide three arguments. First, the user must declare a data set for which he or she wishes to create graphics. Second, a sequence of theta values should be selected in order to plot the parameters *(not necessary for `"lmr"`)*. Lastly, the grouping variable should be declared as a factor. 
+
+In the example below, the data are drawn from `difR` package and the theta values are chosen accordingly using the `seq` function, while the grouping variable is set to "Gender". 
 ```{r, message = FALSE}
 library(irtPlot)
 
@@ -38,11 +37,11 @@ group <- factor(verbal[,"Gender"])
 levels(group) <- c("Male", "Female")
 theta <- seq(-3,3, 0.01)
 ```
-Next, the user must choose which `model` and `type` to plot. This function currently only supports `"1PL"` and `"2PL"` models with `"3PL"` in development. Plot type has one option, [Item Characterstic Curves] (#icc)`"icc"`. See relevant sections below for more information on types. 
+Next, the user must choose which `model` and `type` to plot. This function currently only supports `"1PL"` and `"2PL"` models with `"3PL"` in development. Plot type has one option, [Item Characteristic Curves] (#icc)`"icc"`. See relevant sections below for more information on types. 
 
-**Note**: to reduce clutter, difPlot creates a separate graphic for each item. Subsequent to running the polyPlot function, a new device will be opened to display the plots. After the user presses Enter or clicks on the screen using the left mouse button, the first plot will be printed to the device along with its corresponding plot number printed in the terminal. 
+**Note**: to reduce clutter for `"icc"` type plots, difPlot creates a separate graphic for each item. Subsequent to running the polyPlot function, a new device will be opened to display the plots. After the user presses Enter or clicks on the screen using the left mouse button, the first plot will be printed to the device along with its corresponding plot number printed in the terminal. 
 
-In the current example, polyPlot will first print the "Curse" item along with a `[[1]]` in the terminal. After the user continues to the next plot either by clicking or pressing Enter, the "Scold" item will be displayed in the device with a corresponding `[[2]]`
+In the current example, difPlot will first print the "Curse" item along with a `[[1]]` in the terminal. After the user continues to the next plot either by clicking or pressing Enter, the "Scold" item will be displayed in the device with a corresponding `[[2]]`
 
 #### Options
 
@@ -72,11 +71,11 @@ The user is encouraged to view the help files using the `?difPlot` function.
 
 ## I. Item & Test Charactersitic Curves 
 
-Differential Item Functioning (DIF) may manifest itself as a group difference in the probability of answering a given item correctly across a range of ability values. Visually examining the difference may aid user conceptualization of the hypothesized DIF. The following formula demonstrates the 3PL probability of a correct answer for subject *s* on item *i*, which is estimated for both groups: 
+Differential Item Functioning (DIF) may manifest itself as a group difference in the probability of answering a given item correctly across a range of ability values. Visually examining the difference may aid user conceptualization of the hypothesized DIF. The following formula demonstrates the 2PL probability of a correct answer for ability *s* on item *i*, which is estimated for both groups: 
 
 $$P(Y_{is}=1|\theta_s) = \frac{exp(1.7a_i(\theta_s - b_i))}{1 + exp(1.7a_i(\theta_s - b_i))}$$
 
-Examples of the difference in the Item Characteristic Curves between Gender for `"2PL"` model of the `verbal` items are shown below. The argument `itmNam` is used to shorten the names of the items for asthetic appeal. 
+Examples of the difference in the Item Characteristic Curves between Gender for `"2PL"` model of the `verbal` items are shown below. The argument `itmNam` is used to shorten the names of the items for aesthetic appeal. 
 
 [Back to top](#top) \\
 [Next Section](#lmr)
@@ -93,11 +92,11 @@ difPlot(data, theta, grp = group, model = "2PL", type = "icc", itmNam = c("Curse
 
 ## II. DIF Statistics 
 
-This prototype function allows the user to plot three different DIF-related statistics for simoltaneous examination. The Statistics are Lord's \Chi^2 `L`, Raju's Distance `R` and the Mantel-Haenszel odds ratio `M`. Each statistic is plotted concurrently with its critical value shown as a horizontal dotted line. 
+This prototype function allows the user to plot three different DIF-related statistics for simultaneous examination. The Statistics are Lord's $\chi^2$ (`L`), Raju's Distance (`R`) and the Mantel-Haenszel odds ratio (`M`). Each statistic is plotted concurrently with its critical value shown as a horizontal dotted line. 
 
-The example below shows a each of the three statistics across 6 items from the `verbal` data set. 
+The example below shows the values of each of the three statistics across 6 items from the `verbal` data set. 
 
-*Please note, this function is still under testing*. 
+- *Please note, this function is still under testing*. 
 
 [Previous Section](#icc) \\ 
 [Back to top](#top) \\
@@ -118,10 +117,16 @@ difPlot(data, grp = group, model = "2PL", type = "lmr", itmNam = paste0("Itm", 1
 ## References 
 Embertson, S.E., & Reise, S. P. (2000). *Item Response Theory for Psychologists*. Hillsdale, NJ: Erlbaum.
 
+Holland, P. W., & Thayer, D. T. (1988). Differential item performance and the Mantel-Haenszel procedure. *Test validity*, 129-145.
+
 Lee, J. (2016). *Lectures on Item Response Theory*. Personal Collection of J. Lee, Texas Tech University, 
   Lubbock, TX.
+  
+Lord, F. M. (1980). *Applications of item response theory to practical testing problems*. Routledge.
 
 Magis, D., Beland, S., & Raiche, G. (2015). difR: Collection of methods to detect dichotomous differential item functioning (DIF). R package version 4.6
+
+Raju, N. S. (1990). Determining the significance of estimated signed and unsigned areas between two item response functions. Applied Psychological Measurement, 14(2), 197-207.
 
 Rizopoulos D. (2006). ltm: An R package for Latent Variable Modelling and Item Response Theory Analyses. 
   *Journal of Statistical Software, 17*(5), 1-25. URL http://www.jstatsoft.org/v17/i05/

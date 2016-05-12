@@ -23,15 +23,24 @@ polyPlot is a flexible utility used to create publication-quality graphics for v
 
 #### Essential
 
-Before using the function, the user must provide two primary arguments. First, the user must declare a data set for which he or she wishes to create graphics. Second, a sequence of theta values should be selected in order to plot the parameters. In the example below, the data are drawn from `ltm` package and the theta values are chosen accordingly using the `seq` function. 
+polyPlot is part of the irtPlot package available on github. To download the package, install the `devtools` package and run the following lines:
+
+```{r, message = FALSE}
+library(devtools)
+install_github("ppanko/irtPlot")
+```
+
+Before using the polyPlot function, the user must provide two primary arguments. First, the user must declare a data set for which he or she wishes to create graphics. Second, a sequence of theta values should be selected in order to plot the parameters. In the example below, the data are drawn from `ltm` package and the theta values are chosen accordingly using the `seq` function. 
 ```{r, message = FALSE}
 library(irtPlot)
-data <- Science[,c("Future", "Benefit")]
+data <- Science[,c("Future", "Benefit", "Work")]
 theta <- seq(-4,4, 0.01)
 ```
-Next, the user must choose which `model` and `type` to plot. This function currently supports Samejima's Graded Response Model (`"grm"`) as well as the Partial Credit Model (`"pcm"`). The supported types are [Cumulitive Response Probability](#crp) (`"crp"`), [Item Characteristic Curves](#icc) (`"icc"`), [Item Charactersitc Function](#icf) (`"icf"`). See relevant sections below for more information on types.
+Next, the user must choose which `model` and `type` to create. The models that this function currently supports are Samejima's Graded Response Model (`"grm"`) as well as the Partial Credit Model (`"pcm"`). The supported plot types are [Cumulitive Response Probability](#crp) (`"crp"`), [Item Characteristic Curves](#icc) (`"icc"`), [Item Charactersitc Function](#icf) (`"icf"`). See relevant sections below for more information on types.
 
-**Note**: to reduce clutter, polyPlot creates a separate graphic for each item. Subsequent to running the polyPlot function, a new device will be opened to display the plots. After the user presses Enter or clicks on the screen using the left mouse button, the first plot will be printed to the device along with its corresponding plot number being printed in the terminal. In the current example, polyPlot will first print the "Future" item along with a `[[1]]` in the terminal. After the user continues to the next plot either by clicking or pressing Enter, the "Benefit" itme will be displayed in the device with a corresponding `[[2]]`. 
+**Note**: to reduce clutter, polyPlot creates a separate graphic for each item. Subsequent to running the polyPlot function, a new device will be opened to display the plots. After the user presses Enter or clicks on the screen using the left mouse button, the first plot will be printed to the device along with its corresponding plot number printed in the terminal. 
+
+In the current example, polyPlot will first print the "Future" item along with a `[[1]]` in the terminal. After the user continues to the next plot either by clicking or pressing Enter, the "Benefit" item will be displayed in the device with a corresponding `[[2]]`. Lastly, after a final click, the "Work" item will be shown with a `[[3]]` in the terminal. 
 
 #### Options
 
@@ -41,7 +50,7 @@ Having dispensed with the required arguments, the user is free to select a numbe
 
 - *save*: A logical value specifying whether or not to save the resultant graphics. Requires `TRUE/FALSE`; default is `FALSE`. 
 
-- *title*: A character string to specify the name of the plot. Default behavior is to specify the plot type and the number of items in the model. 
+- *title*: A character string to specify the name of the plot. Default behavior is to specify the plot type and the column name of each item in the model. 
 
 - *filename*: A vector of character strings indicating the desired filename for each item to save. The default filenames are based on the model, type and the column name of each item. 
 
@@ -59,9 +68,9 @@ The user is encouraged to view the help files using the `?polyPlot` function.
 
 <a name = "crp"/>
 
-## Cumulitive Response Probabilities  
+## I. Cumulitive Response Probabilities  
 
-The first plot type available in the polyPlot function is used to calculate the probability of a response being greather than a given threshold. For a graded response model, the probability of observing a response greather than *x* for item *i* can be stated as shown below: 
+The first plot type available in the polyPlot function is used to calculate the probability of a response being greater than a given threshold. For a graded response model, the probability of observing a response greater than *x* for item *i* can be stated as shown below: 
 
 $$P(Y_i > x|(\theta_s) = \frac{exp(1.7a_i(\theta_s - b_{ij}))}{1 + exp(1.7a_i(\theta_s - b_{ij}))}$$
 
@@ -69,9 +78,10 @@ For the partial credit model, the cumulative probabilities are calculated based 
 
 $$P(Y_{i} > 1|\theta_s) = \frac{P_{i2}}{P_{i1} + P_{i2}}$$
 
-The graphics below represent the `"crp"` type plots for the "Future" and "Benefit" items relative to their respective model: first `"grm"` then `"pcm"`. 
+The graphics below represent the `"crp"` type plots for the "Future", "Benefit" and "Work" items relative to their respective model: first `"grm"` then `"pcm"`. 
 
-[Back to top](#top)
+[Back to top](#top) \\
+[Next Section](#icc)
 
 ***
 
@@ -88,25 +98,28 @@ polyPlot(data, theta, model = "pcm", type = "crp")
 
 ***
 
-<a name = "icc"/>
+<a name = "icc"/> 
 
-## Item Characteristic Curves 
+## II. Item Characteristic Curves 
 
-The measurement reliability of a given item can be approximated using Item Information Functions. The information of a given item *i* can be plotted against a range of $\theta$ values to determine the usefulness of *i* across ability levels, as shown below: 
+This plot type represents the probability of responding in each of the categories for a given $\theta_s$. To calculate the probability of each response, the probability of responding in a certain threshold must be subtracted from the probability of the adjacent category as shown below: 
 
-Subtracting adjacent categories
+$$P(Y_{i}= 1|\theta_s) = P_{i1}(\theta_s) - P_{i2}(\theta_s)$$
+
+The formula differs for the first and last categories (in this case 0 and *n*, respectively) as can be seen in the following:
 
 $$P(Y_{i}= 0|\theta_s) = 1 - P_{i1}(\theta_s)$$
-$$P(Y_{i}= 1|\theta_s) = P_{i1}(\theta_s) - P_{i2}(\theta_s)$$
 $$P(Y_{i}= n|\theta_s) = P_{in}(\theta_s) - 0$$
 
-Furthermore, the reliability of a test across ability levels can be estimated by summing the *i* items of a given model:  
+The calculation for an Item Characteristic Curve differs for the Partial Credit Model. In this case, the probability of answering in a given category *x*  is given by:  
 
 $$P(Y_{i} = x|\theta_s) = \frac{exp[\sum_{j=0}^x (\theta_s-\beta_{ij})]}{\sum_{r=0}^{m_i} [exp \sum_{j=0}^x (\theta_s-\beta_{ij})]}$$
 
-Examples of each plot type are shown below.  
+Examples of each `"icc"` plot type are shown below for each of the three "Science" items.  
 
-[Back to top](#top)
+[Previous Section](#crp) \\
+[Back to top](#top) \\
+[Next Section](#icf)
 
 ***
 
@@ -125,19 +138,17 @@ polyPlot(data, theta, model = "pcm", type = "icc")
 
 <a name = "icf"/>
 
-## Item Characteristic Function 
+## III. Item Characteristic Function 
 
-The likelihood of a given response pattern can be computed for a set of ability values. This process can be used to determine a participant's ability level indicated by a peak in the plotted curve. The formula below shows the computational form of the likelihood for person *n* for item set *j* given $\theta$: 
+A useful feature of Item Characteristic Curves for polytomous items is that they can be combined to form a measure of the expected score at each level of $\theta_s$. The expected score on item *j* is expressed below: 
 
 $$E(X_i|\theta_s) = \sum_{x=0}^{m_j} xP_{ix} (\theta_s)$$
 
-Additionally, it is also possible to plot the log-likelihood estimates. This transformation can be expressed:
-
-$$ln[L(\mathbf{u}|\theta)] = \sum_{j = 1}^n [u_jlnP_j + (1 - u_j)ln(1 - P_j)]$$
-
-**Note**: Due to the fact that likelihoods are computed for one row at a time, this function make take a very long time with a large data sets. Users are strongly encouraged to use the `subS = data[x,]` where `data` is the data frame entered in the first argument and `x` is a vector of select observations.  
-
-[Back to top](#top)
+The expected scores for the three "Science" items are shown below for each item separately. 
+ 
+[Previous Section](#icc) \\
+[Back to top](#top) \\
+[Next Section](#ref)
 
 ***
 
@@ -153,6 +164,8 @@ polyPlot(data, theta, model = "pcm", type = "icf")
 ```
 
 ***
+
+<a name = "ref"/>
 
 ## References 
 Embertson, S.E., & Reise, S. P. (2000). *Item Response Theory for Psychologists*. Hillsdale, NJ: Erlbaum.
@@ -174,6 +187,8 @@ Wickham, H. (2009). *ggplot2: Elegant Graphics for Data Analysis*. New York: Spr
 - irtPlot
 
 ***
+[Back to top](#top)
+
 
 Please leave comments at the project repository: https://www.github.com/ppanko/irtPlot 
 
