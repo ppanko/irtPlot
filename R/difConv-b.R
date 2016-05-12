@@ -1,6 +1,6 @@
 namNamd <- function(x, t) {
-    if(t == "icc") title <- sapply(x, function(z) paste0("Item Characteristic Functions \n for the ", z, " Item Between Groups"))
-else if (t == "lmr") title <- paste0("DIF Statistics \n for the " length(x), " Items")
+    if(t == "icc") { title <- sapply(x, function(z) paste0("Item Characteristic Functions \n for the ", z, " Item Between Groups"))
+} else if (t == "lmr") title <- paste0("DIF Statistics \n for the " length(x), " Items")
 }
 
 crtFrmu <- function(x, ind) {
