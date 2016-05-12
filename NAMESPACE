@@ -3,4 +3,5 @@ export(irtPlot,
 	   difPlot)
 
 import(ggplot2,
-	   ltm)
+	   ltm,
+	   difR)
