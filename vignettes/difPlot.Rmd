@@ -4,7 +4,9 @@ author: "Pavel Panko"
 date: '`r Sys.Date()`'
 output: rmarkdown::html_vignette
 vignette: |
-  %\VignetteIndexEntry{Vignette Title} %\VignetteEngine{knitr::rmarkdown} %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{difPlot} 
+  %\VignetteEngine{knitr::rmarkdown} 
+  %\VignetteEncoding{UTF-8}
 ---
 
 The difPlot function is a flexible utility used to create publication-quality graphics for examining Differential Item Functioning in dichotomous item models. This function also provides several useful utilities to facilitate graphic creation. The general flow of tasks within the function is as follows: 
@@ -82,7 +84,7 @@ Examples of the difference in the Item Characteristic Curves between Gender for 
 
 ***
 
-```{r, fig.height=4.5, fig.width=5.5, fig.align = 'center', dev = 'svg', warning = FALSE}
+```{r, fig.height=4.5, fig.width=6.5, fig.align = 'center', dev = 'svg', warning = FALSE}
 difPlot(data, theta, grp = group, model = "2PL", type = "icc", itmNam = c("Curse", "Scold"))
 ```
 
@@ -104,7 +106,7 @@ The example below shows the values of each of the three statistics across 6 item
 
 ***
 
-```{r, fig.height=4.5, fig.width=5.5, fig.align = 'center', dev = 'svg', warning = FALSE}
+```{r, fig.height=4.5, fig.width=6.5, fig.align = 'center', dev = 'svg', warning = FALSE}
 data <- verbal[,3:8]
 group <- factor(verbal[,"Gender"])
 difPlot(data, grp = group, model = "2PL", type = "lmr", itmNam = paste0("Itm", 1:6))
