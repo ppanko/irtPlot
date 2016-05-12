@@ -47,12 +47,12 @@ difPlot <- function(dat,
     if(model == "1PL") {
 
         out <- by(dat, grp, function(x) summary(ltm::rasch(x))$coefficients[,1])
-        cf <- lapply(out, crtFrmu)
+        cf <- lapply(out, crtFrmu, ind = inds)
 
     } else if(model == "2PL") {
 
         out <- by(dat, grp, function(x) summary(ltm::ltm(x ~ z1))$coefficients[,1])
-        cf <- lapply(out, crtFrmn)
+        cf <- lapply(out, crtFrmn, ind = inds)
 
     } else stop("Please enter a valid plot type, comrade")
 
