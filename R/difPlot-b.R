@@ -66,7 +66,7 @@ difPlot <- function(dat,
 
     itms <- lapply(prb, dbind, g = grp)
 
-    itmplot <- mapply(plotDif, itms, title2, SIMPLIFY = FALSE)
+    itmplot <- mapply(plotDif, itms, title2, ylbs = ylb, SIMPLIFY = FALSE)
 
     if(save == TRUE) mapply(gSave, x = itmplot, flnm = fln, dDir = ddir, res = dpi, hgt = height, wdt = width)
 

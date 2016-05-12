@@ -26,7 +26,7 @@ dbind <- function(x, g) {
         itms <- data.frame(prb = unlist(x),  grp = rep(levels(g), each = length(theta)), tht = theta)
 }
 
-plotDif <- function(itms, ttl, x1 = itms$tht, y1 = itms$prb, grp, ylbs = ylb, lgd = "Group") {
+plotDif <- function(itms, ttl, x1 = itms$tht, y1 = itms$prb, grp, ylbs, lgd = "Group") {
 
     ggplot2::ggplot(itms, aes(x = x1, y = y1)) +
         geom_line(aes(color = grp), size = 1) +
