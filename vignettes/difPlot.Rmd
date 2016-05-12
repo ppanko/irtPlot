@@ -41,6 +41,9 @@ theta <- seq(-3,3, 0.01)
 ```
 Next, the user must choose which `model` and `type` to plot. This function currently only supports `"1PL"` and `"2PL"` models with `"3PL"` in development. Plot type has one option, [Item Characterstic Curves] (#icc)`"icc"`. See relevant sections below for more information on types. 
 
+**Note**: to reduce clutter, difPlot creates a separate graphic for each item. Subsequent to running the polyPlot function, a new device will be opened to display the plots. After the user presses Enter or clicks on the screen using the left mouse button, the first plot will be printed to the device along with its corresponding plot number printed in the terminal. 
+
+In the current example, polyPlot will first print the "Curse" item along with a `[[1]]` in the terminal. After the user continues to the next plot either by clicking or pressing Enter, the "Scold" item will be displayed in the device with a corresponding `[[2]]`
 
 #### Options
 
@@ -70,11 +73,11 @@ The user is encouraged to view the help files using the `?difPlot` function.
 
 ## I. Item & Test Charactersitic Curves 
 
-For dichotomous items, Item Characteristic Curves are used to model the probability of answering a given item correctly across a range of ability values. The 3PL probability of a correct answer for subject *s* on item *i* is given by the following formula: 
+Differential Item Functioning (DIF) may manifest itself as a group difference in the probability of answering a given item correctly across a range of ability values. Visually examining the difference may aid user conceptualization of the hypothesized DIF. The following formula demonstrates the 3PL probability of a correct answer for subject *s* on item *i*, which is estimated for both groups: 
 
-$$P(Y_{is}=1|\theta_s) = c_i + (1 - c_i)\frac{exp(1.7a_i(\theta_s - b_i))}{1 + exp(1.7a_i(\theta_s - b_i))}$$
+$$P(Y_{is}=1|\theta_s) = \frac{exp(1.7a_i(\theta_s - b_i))}{1 + exp(1.7a_i(\theta_s - b_i))}$$
 
-Examples the difference in the Item Characteristic Curves between Gender for `"2PL"` model of the `verbal` items are shown below. 
+Examples of the difference in the Item Characteristic Curves between Gender for `"2PL"` model of the `verbal` items are shown below. The argument `itmNam` is used to shorten the names of the items for asthetic appeal. 
 
 [Back to top](#top) \\
 [Next Section](#ref)

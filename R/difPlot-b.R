@@ -29,7 +29,7 @@ difPlot <- function(dat,
                     save = FALSE,
                     model,
                     grp,
-                    fln = paste0(model, "_", "dif_", colnames(dat), ".jpg"),
+                    fln = paste0(model, "_", type, "_", colnames(dat), ".jpg"),
                     dpi = 300,
                     height = 8.5,
                     width = 10,
@@ -38,38 +38,57 @@ difPlot <- function(dat,
 
 {
 
-    if(length(title) < 1) title2 <- sapply(itmNam, function(x) paste0("Item Characteristic Functions \n for the ", x, " Item Between Groups"))
+    if(length(title) < 1) title2 <- namNamd(itmNam, type)
     else title2 <- title
 
-    ylb <- expression(atop(P(theta),))
     inds <- ncol(dat)
 
-    if(model == "1PL") {
+    if(type = "icc") {
+        if(model == "1PL") {
 
-        out <- by(dat, grp, function(x) summary(ltm::rasch(x))$coefficients[,1])
-        cf <- lapply(out, crtFrmu, ind = inds)
+            out <- by(dat, grp, function(x) summary(ltm::rasch(x))$coefficients[,1])
+            cf <- lapply(out, crtFrmu, ind = inds)
 
-    } else if(model == "2PL") {
+        } else if(model == "2PL") {
 
-        out <- by(dat, grp, function(x) summary(ltm::ltm(x ~ z1))$coefficients[,1])
-        cf <- lapply(out, crtFrmn, ind = inds)
+            out <- by(dat, grp, function(x) summary(ltm::ltm(x ~ z1))$coefficients[,1])
+            cf <- lapply(out, crtFrmn, ind = inds)
 
-    } else stop("Please enter a valid plot type, comrade")
+        } else stop("Please enter a valid plot type, comrade")
 
-    prb <- lapply(cf, calcD)
+        prb <- lapply(cf, calcD)
 
-    for(j in 1:length(prb)) {
-        for(i in 1:length(prb)) {
-            prb[[j]][[i]] <- prb[[i]][[j]]
+        for(j in 1:length(prb)) {
+            for(i in 1:length(prb)) {
+                prb[[j]][[i]] <- prb[[i]][[j]]
+            }
         }
-    }
 
-    itms <- lapply(prb, dbind, g = grp)
+        itms <- lapply(prb, dbind, g = grp)
 
-    itmplot <- mapply(plotDif, itms, title2, ylbs = ylb, SIMPLIFY = FALSE)
-    names(itmplot) <- NULL
+        itmplot <- mapply(plotDif, itms, title2, ylbs = ylb, SIMPLIFY = FALSE)
+        names(itmplot) <- NULL
 
-    if(save == TRUE) mapply(gSave, x = itmplot, flnm = fln, dDir = ddir, res = dpi, hgt = height, wdt = width)
+        if(save == TRUE) mapply(gSave, x = itmplot, flnm = fln, dDir = ddir, res = dpi, hgt = height, wdt = width)
+        if(silent == FALSE) print(lapply(itmplot, prints))
 
-    if(silent == FALSE) print(lapply(itmplot, prints))
-}
+    } else if (type == "lmr") {
+
+        fln <- paste0(model, "_dif_", type, ".jpg")
+
+        outM <- difR::difMH(dat, group = grp, focal.name=1)
+        outR <- difR::difRaju(dat, group = grp, focal.name=1, model = model)
+        outL <- difR::difLord(dat, group = grp, focal.name=1, model = model)
+
+        thr <- c(outL$thr, outR$thr, outM$thr)
+
+        itms <- data.frame(lr = abs(c(outL$LordChi, outR$RajuZ, outM$MH)), itm = 1:inds,
+                           mth = factor(rep(c("L", "R", "M"), each = inds)))
+
+        itmplot <- plotLMR(itms, ttl = "hi", ylbs = ylb, nm = itmNam, thrs = thr)
+
+        if(save == TRUE) ggplot2::ggsave(itmplot, file = paste0(ddir,"/",filename), dpi = dpi, height = height, width = width)
+
+        if(silent == FALSE) print(itmplot)
+
+    } else stop("Please provide a valid plot type, comrade")
