@@ -42,8 +42,8 @@ difPlot <- function(dat,
     else title2 <- title
 
     ylb <- expression(atop(P(theta),))
-    ind <- ncol(dat)
-browser()
+    inds <- ncol(dat)
+
     if(model == "1PL") {
 
         out <- by(dat, grp, function(x) summary(ltm::rasch(x))$coefficients[,1])

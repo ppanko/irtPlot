@@ -1,4 +1,4 @@
-crtFrmu <- function(x) {
+crtFrmu <- function(x, ind = inds) {
     dt <- list()
     dt$a <- rep(x[ind+1], ind)
     dt$b <- x[1:ind]
@@ -6,7 +6,7 @@ crtFrmu <- function(x) {
     return(dt)
 }
 
-crtFrmn <- function(x) {
+crtFrmn <- function(x, ind = inds) {
     dt <- list()
     dt$a <- x[(ind+1):length(x)]
     dt$b <- x[1:ind]
