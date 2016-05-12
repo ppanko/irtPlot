@@ -45,6 +45,9 @@ difPlot <- function(dat,
     inds <- ncol(dat)
 
     if(type == "icc") {
+
+        ylb <- expression(atop(P(theta),))
+
         if(model == "1PL") {
 
             out <- by(dat, grp, function(x) summary(ltm::rasch(x))$coefficients[,1])
