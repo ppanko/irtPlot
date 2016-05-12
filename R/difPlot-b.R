@@ -44,7 +44,7 @@ difPlot <- function(dat,
 
     inds <- ncol(dat)
 
-    if(type = "icc") {
+    if(type == "icc") {
         if(model == "1PL") {
 
             out <- by(dat, grp, function(x) summary(ltm::rasch(x))$coefficients[,1])
