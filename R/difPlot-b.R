@@ -94,3 +94,4 @@ difPlot <- function(dat,
         if(silent == FALSE) print(itmplot)
 
     } else stop("Please provide a valid plot type, comrade")
+}
