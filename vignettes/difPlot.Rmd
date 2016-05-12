@@ -31,7 +31,6 @@ install_github("ppanko/irtPlot")
 Before using the function, the user must provide three arguments. First, the user must declare a data set for which he or she wishes to create graphics. Second, a sequence of theta values should be selected in order to plot the parameters (not necessary for `"lmr"`). Lastly, the grouping variable should be declared as a factor. In the example below, the data are drawn from `difR` package and the theta values are chosen accordingly using the `seq` function, while the grouping variable is set to "Gender". 
 ```{r, message = FALSE}
 library(irtPlot)
-library(difR)
 
 data(verbal)
 data <- verbal[,1:2]
@@ -85,7 +84,7 @@ Examples of the difference in the Item Characteristic Curves between Gender for 
 ***
 
 ```{r, fig.height=4.5, fig.width=5.5, fig.align = 'center', dev = 'svg', warning = FALSE}
-difPlot(data, theta, grp = group, model = "2PL", type = "icc")
+difPlot(data, theta, grp = group, model = "2PL", type = "icc", itmNam = c("Curse", "Scold"))
 ```
 
 ***
@@ -96,7 +95,7 @@ difPlot(data, theta, grp = group, model = "2PL", type = "icc")
 
 This prototype function allows the user to plot three different DIF-related statistics for simoltaneous examination. The Statistics are Lord's \Chi^2 `L`, Raju's Distance `R` and the Mantel-Haenszel odds ratio `M`. Each statistic is plotted concurrently with its critical value shown as a horizontal dotted line. 
 
-The example below shows a each of the three statistics across 7 items from the `verbal` data set. 
+The example below shows a each of the three statistics across 6 items from the `verbal` data set. 
 
 *Please note, this function is still under testing*. 
 
@@ -107,9 +106,9 @@ The example below shows a each of the three statistics across 7 items from the `
 ***
 
 ```{r, fig.height=4.5, fig.width=5.5, fig.align = 'center', dev = 'svg', warning = FALSE}
-data(verbal)
 data <- verbal[,3:8]
-difPlot(data, grp = group, model = "2PL", type = "lmr")
+group <- factor(verbal[,"Gender"])
+difPlot(data, grp = group, model = "2PL", type = "lmr", itmNam = paste0("Itm", 1:6))
 ```
 
 ***
