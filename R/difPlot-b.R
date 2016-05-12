@@ -29,6 +29,7 @@ difPlot <- function(dat,
                     save = FALSE,
                     model,
                     grp,
+                    type,
                     fln = paste0(model, "_", type, "_", colnames(dat), ".jpg"),
                     dpi = 300,
                     height = 8.5,
@@ -75,6 +76,7 @@ difPlot <- function(dat,
     } else if (type == "lmr") {
 
         fln <- paste0(model, "_dif_", type, ".jpg")
+        ylb <- "LRT \n"
 
         outM <- difR::difMH(dat, group = grp, focal.name=1)
         outR <- difR::difRaju(dat, group = grp, focal.name=1, model = model)
