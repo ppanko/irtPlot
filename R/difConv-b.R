@@ -23,7 +23,7 @@ calcD <- function(dat, tht = theta) {
 }
 
 dbind <- function(x) {
-        itms <- data.frame(prb = unlist(x),  grp = rep(names(hi2), each = length(theta)), tht = theta)
+        itms <- data.frame(prb = unlist(x),  grp = rep(names(grp), each = length(theta)), tht = theta)
 }
 
 plotDif <- function(itms, ttl, x1 = itms$tht, y1 = itms$prb, grp, ylbs = ylb, lgd = "Group") {
