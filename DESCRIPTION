@@ -9,7 +9,8 @@ Description: User-friendly functions for observing
     and differential item functioning plotting.
 Depends:
     ggplot2,
-    ltm
+    ltm, 
+	difR
 License: GPL-3 | file LICENSE
 Encoding: UTF-8
 LazyData: true, so true...

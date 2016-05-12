@@ -28,7 +28,7 @@ difPlot is part of the irtPlot package available on github. To download the pack
 library(devtools)
 install_github("ppanko/irtPlot")
 ```
-Before using the function, the user must provide three arguments. First, the user must declare a data set for which he or she wishes to create graphics. Second, a sequence of theta values should be selected in order to plot the parameters. Lastly, the grouping variable should be declared as a factor. In the example below, the data are drawn from `difR` package and the theta values are chosen accordingly using the `seq` function, while the grouping variable is set to "Gender". 
+Before using the function, the user must provide three arguments. First, the user must declare a data set for which he or she wishes to create graphics. Second, a sequence of theta values should be selected in order to plot the parameters (not necessary for `"lmr"`). Lastly, the grouping variable should be declared as a factor. In the example below, the data are drawn from `difR` package and the theta values are chosen accordingly using the `seq` function, while the grouping variable is set to "Gender". 
 ```{r, message = FALSE}
 library(irtPlot)
 library(difR)
@@ -80,12 +80,36 @@ $$P(Y_{is}=1|\theta_s) = \frac{exp(1.7a_i(\theta_s - b_i))}{1 + exp(1.7a_i(\thet
 Examples of the difference in the Item Characteristic Curves between Gender for `"2PL"` model of the `verbal` items are shown below. The argument `itmNam` is used to shorten the names of the items for asthetic appeal. 
 
 [Back to top](#top) \\
+[Next Section](#lmr)
+
+***
+
+```{r, fig.height=4.5, fig.width=5.5, fig.align = 'center', dev = 'svg', warning = FALSE}
+difPlot(data, theta, grp = group, model = "2PL", type = "icc")
+```
+
+***
+
+<a name = "lmr"/>
+
+## II. DIF Statistics 
+
+This prototype function allows the user to plot three different DIF-related statistics for simoltaneous examination. The Statistics are Lord's \Chi^2 `L`, Raju's Distance `R` and the Mantel-Haenszel odds ratio `M`. Each statistic is plotted concurrently with its critical value shown as a horizontal dotted line. 
+
+The example below shows a each of the three statistics across 7 items from the `verbal` data set. 
+
+*Please note, this function is still under testing*. 
+
+[Previous Section](#icc) \\ 
+[Back to top](#top) \\
 [Next Section](#ref)
 
 ***
 
 ```{r, fig.height=4.5, fig.width=5.5, fig.align = 'center', dev = 'svg', warning = FALSE}
-difPlot(data, theta, grp = group, model = "2PL", itmNam = c("Curse", "Scold"))
+data(verbal)
+data <- verbal[,3:8]
+difPlot(data, grp = group, model = "2PL", type = "lmr")
 ```
 
 ***
