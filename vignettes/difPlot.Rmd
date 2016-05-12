@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-The difPlot function is a flexible utility used to create publication-quality graphics for examining Differential Item Functioning. This function also provides several useful utilities to facilitate graphic creation. The general flow of tasks within the function is as follows: 
+The difPlot function is a flexible utility used to create publication-quality graphics for examining Differential Item Functioning in dichotomous item models. This function also provides several useful utilities to facilitate graphic creation. The general flow of tasks within the function is as follows: 
 
 - Use the `ltm` package to estimate a separate model between the chosen groups.  
 - Calculate the probability using the estimated parameters and supplied theta values for each group. 
@@ -28,13 +28,15 @@ difPlot is part of the irtPlot package available on github. To download the pack
 library(devtools)
 install_github("ppanko/irtPlot")
 ```
-Before using the function, the user must provide two primary arguments. First, the user must declare a data set for which he or she wishes to create graphics. Second, a sequence of theta values should be selected in order to plot the parameters. Lastly, the grouping variable should be declared.In the example below, the data are drawn from `difR` package and the theta values are chosen accordingly using the `seq` function, while the grouping variable is set to "Gender". 
+Before using the function, the user must provide three arguments. First, the user must declare a data set for which he or she wishes to create graphics. Second, a sequence of theta values should be selected in order to plot the parameters. Lastly, the grouping variable should be declared as a factor. In the example below, the data are drawn from `difR` package and the theta values are chosen accordingly using the `seq` function, while the grouping variable is set to "Gender". 
 ```{r, message = FALSE}
 library(irtPlot)
 library(difR)
+
 data(verbal)
 data <- verbal[,1:2]
-group = verbal[,"Gender"]
+group <- factor(verbal[,"Gender"]) 
+levels(group) <- c("Male", "Female")
 theta <- seq(-3,3, 0.01)
 ```
 Next, the user must choose which `model` and `type` to plot. This function currently only supports `"1PL"` and `"2PL"` models with `"3PL"` in development. Plot type has one option, [Item Characterstic Curves] (#icc)`"icc"`. See relevant sections below for more information on types. 
@@ -68,24 +70,19 @@ The user is encouraged to view the help files using the `?difPlot` function.
 
 ## I. Item & Test Charactersitic Curves 
 
-
 For dichotomous items, Item Characteristic Curves are used to model the probability of answering a given item correctly across a range of ability values. The 3PL probability of a correct answer for subject *s* on item *i* is given by the following formula: 
 
 $$P(Y_{is}=1|\theta_s) = c_i + (1 - c_i)\frac{exp(1.7a_i(\theta_s - b_i))}{1 + exp(1.7a_i(\theta_s - b_i))}$$
 
-Similarly, Test Characteristic Curves represent the probability of observing a certain response total over a range of ability values. The probability of the expected score on the test for subject *s* is shown below: 
-
-$$TCC(\theta_s) = \sum_{i=1}^I P(Y_{is} = 1|\theta_s)$$
-
-Examples using the `LSAT` data are shown below for each type of plot. 
+Examples the difference in the Item Characteristic Curves between Gender for `"2PL"` model of the `verbal` items are shown below. 
 
 [Back to top](#top) \\
 [Next Section](#ref)
 
 ***
 
-```{r, fig.height=4.5, fig.width=5.5, fig.align = 'center', dev = 'svg'}
-difPlot(data, theta, grp = group, model = "2PL")
+```{r, fig.height=4.5, fig.width=5.5, fig.align = 'center', dev = 'svg', warning = FALSE}
+difPlot(data, theta, grp = group, model = "2PL", itmNam = c("Curse", "Scold"))
 ```
 
 ***
@@ -98,13 +95,15 @@ Embertson, S.E., & Reise, S. P. (2000). *Item Response Theory for Psychologists*
 Lee, J. (2016). *Lectures on Item Response Theory*. Personal Collection of J. Lee, Texas Tech University, 
   Lubbock, TX.
 
+Magis, D., Beland, S., & Raiche, G. (2015). difR: Collection of methods to detect dichotomous differential item functioning (DIF). R package version 4.6
+
 Rizopoulos D. (2006). ltm: An R package for Latent Variable Modelling and Item Response Theory Analyses. 
   *Journal of Statistical Software, 17*(5), 1-25. URL http://www.jstatsoft.org/v17/i05/
 
 Wickham, H. (2009). *ggplot2: Elegant Graphics for Data Analysis*. New York: Springer-Verlag.
 
 ### See Also
-- difPlot
+- irtPlot
 - polyPlot
 
 ***
