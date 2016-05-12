@@ -43,7 +43,7 @@ difPlot <- function(dat,
 
     ylb <- expression(atop(P(theta),))
     ind <- ncol(dat)
-
+browser()
     if(model == "1PL") {
 
         out <- by(dat, grp, function(x) summary(ltm::rasch(x))$coefficients[,1])

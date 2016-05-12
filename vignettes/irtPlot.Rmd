@@ -16,10 +16,17 @@ The irtPlot function is a flexible utility used to create publication-quality gr
 - Plot the resultant outcome against the theta values using `ggplot2`. 
 - Save the plot if desired. 
 
+<a name = "top"/>
+
 ## Getting Started
 
 #### Essential
+irtPlot is part of the irtPlot package available on github. To download the package, install the `devtools` package and run the following lines:
 
+```{r, message = FALSE}
+library(devtools)
+install_github("ppanko/irtPlot")
+```
 Before using the function, the user must provide two primary arguments. First, the user must declare a data set for which he or she wishes to create graphics. Second, a sequence of theta values should be selected in order to plot the parameters. In the example below, the data are drawn from `ltm` package and the theta values are chosen accordingly using the `seq` function. 
 ```{r, message = FALSE}
 library(irtPlot)
@@ -47,7 +54,7 @@ Having dispensed with the required arguments, the user is free to select a numbe
 
 - *height*: A numeric value for the desired height of the figure in inches. Default is 10 inches. 
 
-- *itmNam*: A vector of character string specifying the name of the items displayed in the legend. Default values are the names of the columns in the specified data set. 
+- *itmNam*: A vector of character strings specifying the name of the items displayed in the legend. Default values are the names of the columns in the specified data set. 
 
 - *subS*: A data frame used to subset the supplied data for the `"likl"` and `"logl"` types. See the [relevant](#lik) section below for further details. 
 
@@ -57,7 +64,7 @@ The user is encouraged to view the help files using the `?irtPlot` function.
 
 <a name = "icc"/>
 
-## Item & Test Charactersitic Curves 
+## I. Item & Test Charactersitic Curves 
 
 
 For dichotomous items, Item Characteristic Curves are used to model the probability of answering a given item correctly across a range of ability values. The 3PL probability of a correct answer for subject *s* on item *i* is given by the following formula: 
@@ -70,6 +77,9 @@ $$TCC(\theta_s) = \sum_{i=1}^I P(Y_{is} = 1|\theta_s)$$
 
 Examples using the `LSAT` data are shown below for each type of plot. 
 
+[Back to top](#top) \\
+[Next Section](#iif)
+
 ***
 
 ```{r, fig.height=4.5, fig.width=5.5, fig.align = 'center', dev = 'svg'}
@@ -81,7 +91,7 @@ irtPlot(data, theta, model = "3PL", type = "tcc")
 
 <a name = "iif"/>
 
-## Item & Test Information Functions 
+## II. Item & Test Information Functions 
 
 The measurement reliability of a given item can be approximated using Item Information Functions. The information of a given item *i* can be plotted against a range of $\theta$ values to determine the usefullness of *i* across ability levels, as shown below: 
 
@@ -92,6 +102,11 @@ Furthermore, the reliability of a test across ability levels can be estimated by
 $$I(\theta) = \sum_{i = 1}^I I_i(\theta) $$
 
 Examples of each plot type are shown below.  
+
+[Previous Section](#icc) \\
+[Back to top](#top) \\
+[Next Section](#lik)
+
 
 ***
 
@@ -104,7 +119,7 @@ irtPlot(data, theta, model = "3PL", type = "tif")
 
 <a name = "lik"/>
 
-## Ability Parameter Estimation 
+## III. Ability Parameter Estimation 
 
 The likelihood of a given response pattern can be computed for a set of ability values. This process can be used to determine a participant's ability level indicated by a peak in the plotted curve. The formula below shows the computational form of the likelihood for person *n* for item set *j* given $\theta$: 
 
@@ -116,6 +131,10 @@ $$ln[L(\mathbf{u}|\theta)] = \sum_{j = 1}^n [u_jlnP_j + (1 - u_j)ln(1 - P_j)]$$
 
 **Note**: Due to the fact that likelihoods are computed for one row at a time, this function make take a very long time with a large data sets. Users are strongly encouraged to use the `subS = data[x,]` where `data` is the data frame entered in the first argument and `x` is a vector of select observations.  
 
+[Previous Section](#iif) \\
+[Back to top](#top) \\
+[Next Section](#ref)
+
 ***
 
 ```{r, fig.height=4.5, fig.width=5.5, fig.align = 'center', dev = 'svg'}
@@ -124,6 +143,8 @@ irtPlot(data, theta, model = "2PL", type = "logl", subS = data[1,])
 ```
 
 ***
+
+<a name = "ref"/>
 
 ## References 
 Embertson, S.E., & Reise, S. P. (2000). *Item Response Theory for Psychologists*. Hillsdale, NJ: Erlbaum.
@@ -141,6 +162,7 @@ Wickham, H. (2009). *ggplot2: Elegant Graphics for Data Analysis*. New York: Spr
 - polyPlot
 
 ***
+[Back to top](#top)
 
 Please leave comments at the project repository: https://www.github.com/ppanko/irtPlot 
 

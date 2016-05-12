@@ -1,0 +1,114 @@
+---
+title: "difPlot - Visualizing DIF Analysis"
+author: "Pavel Panko"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The difPlot function is a flexible utility used to create publication-quality graphics for examining Differential Item Functioning. This function also provides several useful utilities to facilitate graphic creation. The general flow of tasks within the function is as follows: 
+
+- Use the `ltm` package to estimate a separate model between the chosen groups.  
+- Calculate the probability using the estimated parameters and supplied theta values for each group. 
+- Plot the resultant probability against the theta values using `ggplot2`. 
+- Press Enter to toggle between plots.
+- Save the plot if desired. 
+
+<a name = "top"/>
+
+## Getting Started
+
+#### Essential
+difPlot is part of the irtPlot package available on github. To download the package, install the `devtools` package and run the following lines:
+
+```{r, message = FALSE}
+library(devtools)
+install_github("ppanko/irtPlot")
+```
+Before using the function, the user must provide two primary arguments. First, the user must declare a data set for which he or she wishes to create graphics. Second, a sequence of theta values should be selected in order to plot the parameters. Lastly, the grouping variable should be declared.In the example below, the data are drawn from `difR` package and the theta values are chosen accordingly using the `seq` function, while the grouping variable is set to "Gender". 
+```{r, message = FALSE}
+library(irtPlot)
+library(difR)
+data(verbal)
+data <- verbal[,1:2]
+group = verbal[,"Gender"]
+theta <- seq(-3,3, 0.01)
+```
+Next, the user must choose which `model` and `type` to plot. This function currently only supports `"1PL"` and `"2PL"` models with `"3PL"` in development. Plot type has one option, [Item Characterstic Curves] (#icc)`"icc"`. See relevant sections below for more information on types. 
+
+
+#### Options
+
+Having dispensed with the required arguments, the user is free to select a number of optional commands to personalize the desired plot. Most of the the arguments in this section are used to tweak default setting for the `save` utility. 
+
+- *ddir*: A character string specifying the directory in which to save plots. Default is the current working directory. 
+
+- *save*: A logical value specifying whether or not to save the resultant graphics. Requires `TRUE/FALSE`; default is `FALSE`. 
+
+- *title*: A character string to specify the name of the plot. Default behavior is to specify the plot type and the number of items in the model. 
+
+- *filename*: A character string indicating the desired filename for the saved plot. The default filename is based on the model and type arguments. 
+
+- *dpi*: An integer value specifying the resolution of the saved graphic. Default value is 300; recommended value for standard poster-size figures is 600. 
+
+- *width*: A numeric value for the desired width of the figure in inches. Default is 8.5 inches.
+
+- *height*: A numeric value for the desired height of the figure in inches. Default is 10 inches. 
+
+- *itmNam*: A vector of character strings specifying the name of the items displayed in the legend. Default values are the names of the columns in the specified data set. 
+
+- *silent*: A logical value specifying whether or not to print graphics to screen. This feature is primarily used when the user simply wants to save a plot without examining it. Default is `FALSE`. 
+
+The user is encouraged to view the help files using the `?difPlot` function. 
+
+<a name = "icc"/>
+
+## I. Item & Test Charactersitic Curves 
+
+
+For dichotomous items, Item Characteristic Curves are used to model the probability of answering a given item correctly across a range of ability values. The 3PL probability of a correct answer for subject *s* on item *i* is given by the following formula: 
+
+$$P(Y_{is}=1|\theta_s) = c_i + (1 - c_i)\frac{exp(1.7a_i(\theta_s - b_i))}{1 + exp(1.7a_i(\theta_s - b_i))}$$
+
+Similarly, Test Characteristic Curves represent the probability of observing a certain response total over a range of ability values. The probability of the expected score on the test for subject *s* is shown below: 
+
+$$TCC(\theta_s) = \sum_{i=1}^I P(Y_{is} = 1|\theta_s)$$
+
+Examples using the `LSAT` data are shown below for each type of plot. 
+
+[Back to top](#top) \\
+[Next Section](#ref)
+
+***
+
+```{r, fig.height=4.5, fig.width=5.5, fig.align = 'center', dev = 'svg'}
+difPlot(data, theta, grp = group, model = "2PL")
+```
+
+***
+
+<a name = "ref"/>
+
+## References 
+Embertson, S.E., & Reise, S. P. (2000). *Item Response Theory for Psychologists*. Hillsdale, NJ: Erlbaum.
+
+Lee, J. (2016). *Lectures on Item Response Theory*. Personal Collection of J. Lee, Texas Tech University, 
+  Lubbock, TX.
+
+Rizopoulos D. (2006). ltm: An R package for Latent Variable Modelling and Item Response Theory Analyses. 
+  *Journal of Statistical Software, 17*(5), 1-25. URL http://www.jstatsoft.org/v17/i05/
+
+Wickham, H. (2009). *ggplot2: Elegant Graphics for Data Analysis*. New York: Springer-Verlag.
+
+### See Also
+- difPlot
+- polyPlot
+
+***
+[Back to top](#top)
+
+Please leave comments at the project repository: https://www.github.com/ppanko/irtPlot 
+
